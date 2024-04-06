@@ -15,4 +15,17 @@ class JsonResponse
         return response()->json(['message' => $message , 'status' => $status],
             Response::HTTP_NOT_FOUND);
     }
+
+    public static function internalSererError($message , $status): \Illuminate\Http\JsonResponse
+    {
+        return response()->json(['message' => $message , 'status' => $status],
+            Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+    public static function  forbidden($message , $status): \Illuminate\Http\JsonResponse
+    {
+        return response()->json(['message' => $message , 'status' => $status],
+            Response::HTTP_FORBIDDEN);
+    }
+
+
 }

@@ -12,7 +12,6 @@ Route::prefix('auth')->name('auth')->group(function () {
         ->name('register');
     Route::post('login', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'store'])
         ->name('login');
-
     Route::middleware(['auth:sanctum'])
         ->post('logout', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
@@ -22,6 +21,7 @@ Route::prefix('auth')->name('auth')->group(function () {
 Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(function () {
     Route::apiResource('users', \App\Http\Controllers\Manager\UserContoller::class);
     Route::apiResource('category', \App\Http\Controllers\Manager\CategoryController::class);
+    Route::apiResource('tags', \App\Http\Controllers\Manager\TagController::class);
 });
 
 
@@ -43,5 +43,12 @@ Route::middleware(['auth:sanctum'])->prefix('status')->name('status')->group(fun
     Route::put('category/reject/{category}', [\App\Http\Controllers\Manager\CategoryController::class, 'reject'])
         ->name('reject');
     Route::put('category/pending/{category}', [\App\Http\Controllers\Manager\CategoryController::class, 'pending'])
+        ->name('pending');
+
+    Route::put('tag/success/{tag}', [\App\Http\Controllers\Manager\TagController::class, 'success'])
+        ->name('success');
+    Route::put('tag/reject/{tag}', [\App\Http\Controllers\Manager\TagController::class, 'reject'])
+        ->name('reject');
+    Route::put('tag/pending/{tag}', [\App\Http\Controllers\Manager\TagController::class, 'pending'])
         ->name('pending');
 });
