@@ -87,7 +87,7 @@ return [
      * "similar" slugs.  The closure should return the new unique
      * suffix to append to the slug.
      */
-    
+
     'uniqueSuffix' => null,
 
     /**
@@ -143,10 +143,10 @@ return [
      *
      * Be careful! If you are using slugs to generate URLs, then
      * updating your slug automatically might change your URLs which
-     * is probably not a good idea from an SEO point of view.
+     * is probably not a good idea from an SeoMiddleware point of view.
      * Only set this to true if you understand the possible consequences.
      */
-    
+
     'onUpdate' => false,
 
     /**

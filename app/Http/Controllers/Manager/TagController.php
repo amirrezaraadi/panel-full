@@ -27,7 +27,6 @@ class TagController extends Controller
         return JsonResponse::SuccessResponse('success create tag', 'success');
     }
 
-
     public function show($tag)
     {
         return $this->tagRepo->getFindId($tag);
@@ -38,8 +37,6 @@ class TagController extends Controller
         $this->tagRepo->update($request, $tag);
         return JsonResponse::SuccessResponse('Editing was done correctly ', 'success');
     }
-
-
     public function destroy( $tag)
     {
         $delete = $this->tagRepo->delete($tag);

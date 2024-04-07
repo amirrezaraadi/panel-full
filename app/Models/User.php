@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
- use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Http\Middleware\SeoMiddleware;
+//use Artesaos\SEOTools\Traits\SEOTools;
+use App\Notifications\Auth\ForegetPasswordNotification;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Artesaos\SEOTools\Facades\SEOTools;
+
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -28,6 +33,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    public function sendEmailForgetPassword()
+    {
+        return $this->notify(new ForegetPasswordNotification());
+    }
     const STATUS_USER_SUCCESS = 'success';
     const STATUS_USER_PENDING = 'pending';
     const STATUS_USER_REJECT = 'reject';
@@ -40,4 +49,14 @@ class User extends Authenticatable implements MustVerifyEmail
         self::STATUS_USER_BAN,
         self::STATUS_USER_ACTIVE,
     ];
+
+    // Define a saved event listener
+    protected static function boot()
+    {
+        parent::boot();
+        static::saved(function ($user) {
+            SEOTools::setTitle($user->name);
+        });
+    }
+
 }

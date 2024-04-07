@@ -32,7 +32,7 @@ class userRepo
 
     public function getFindId($id)
     {
-            return $this->query->findOrFail($id);
+        return $this->query->findOrFail($id);
     }
 
     public function update($data , $id )
@@ -72,5 +72,8 @@ class userRepo
             return Hash::check($password , $user);
     }
 
-
+    public function getFindEmail($email)
+    {
+        return $this->query->where('email' , $email)->first();
+    }
 }
