@@ -24,7 +24,11 @@ Route::prefix('auth')->name('auth')->group(function () {
         ->middleware('guest')
         ->name('password.email');
     Route::post('/check-forgot-password/{email}', [\App\Http\Controllers\Auth\PasswordResetLinkController::class, 'checkPassword'])
+        ->middleware('guest')
         ->name('check-forgot-password');
+    Route::middleware(['auth:sanctum'])->post('/change-password/', [\App\Http\Controllers\Auth\NewPasswordController::class, 'store'])
+//        ->middleware('guest')
+        ->name('change-password');
 });
 
 Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(function () {

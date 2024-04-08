@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\PasswordResetRequest;
 use App\Repository\Manager\userRepo;
 use App\Service\JsonResponse;
 use App\Service\VerifyCodeService;
@@ -17,11 +18,9 @@ class PasswordResetLinkController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request  , userRepo $userRepo): \Illuminate\Http\JsonResponse
+    public function store(PasswordResetRequest $request  , userRepo $userRepo): \Illuminate\Http\JsonResponse
     {
-        $request->validate([
-            'email' => ['required', 'email'],
-        ]);
+        $request->validated();
         $user = $userRepo->getFindEmail($request->only('email'));
         VerifyCodeService::delete($user->id);
         if(is_null($user))

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Http\Middleware\SeoMiddleware;
 //use Artesaos\SEOTools\Traits\SEOTools;
 use App\Notifications\Auth\ForegetPasswordNotification;
+use App\Notifications\Auth\successChangePasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -35,8 +36,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sendEmailForgetPassword()
     {
-        return $this->notify(new ForegetPasswordNotification());
+         $this->notify(new ForegetPasswordNotification());
     }
+    public function successChangePassword()
+    {
+         $this->notify(new successChangePasswordNotification());
+    }
+
     const STATUS_USER_SUCCESS = 'success';
     const STATUS_USER_PENDING = 'pending';
     const STATUS_USER_REJECT = 'reject';
