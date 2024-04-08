@@ -23,14 +23,13 @@ class ForegetPasswordNotification extends Notification
 
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail' , 'database'];
     }
 
     public function toMail(object $notifiable): ForgetPasswordMail
     {
         $code = VerifyCodeService::generate();
         VerifyCodeService::store($notifiable->id, $code, 120);
-        dd('dsad');
         return (new ForgetPasswordMail($code , $notifiable->name ))->to($notifiable->email) ;
     }
 
@@ -42,7 +41,8 @@ class ForegetPasswordNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'name' => $notifiable->name ,
+            'email' => $notifiable->email ,
         ];
     }
 }

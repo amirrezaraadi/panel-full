@@ -27,9 +27,9 @@ class JsonResponse
             Response::HTTP_FORBIDDEN);
     }
 
-    public function SuccessFindid($id)
+    public static  function SuccessFindid($email)
     {
-        return response()->json(['email' => $id ],200);
+        return response()->json(['email' => $email ],200);
     }
 
 }

@@ -30,15 +30,13 @@ class PasswordResetLinkController extends Controller
         return JsonResponse::SuccessFindid( $user->email );
     }
 
-    public function checkPassword(Request $request)
+    public function checkPassword(Request $request , $email)
     {
-        dd($request->all());
-        $user = resolve(userRepo::class)->getFindId($request->id);
-        if ($user == null || !VerifyCodeService::check($user->id, $request->verify_code)) {
-            return back()->withErrors(['verify_code' => 'The entered code is not valid !']);
+        $user = resolve(userRepo::class)->getFindEmail($email);
+        if ($user == null || !VerifyCodeService::check( $user->id , $request->verify_code)) {
+            return JsonResponse::NotFoundResponse('not found code' , 'error');
         }
-
-        return JsonResponse::SuccessResponse('You have entered the site correctly');
+        return JsonResponse::SuccessResponse('You have entered the site correctly' , 'success');
     }
 
 // link

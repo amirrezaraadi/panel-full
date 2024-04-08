@@ -39,14 +39,13 @@ class VerifyCodeService
 
     public static function getRule()
     {
-        return 'required|numeric|between:' . self::$min .','. self::$max;
+        return 'required|numeric|between:' . self::$min . ',' . self::$max;
     }
 
     public static function check($id, $code)
     {
         if (self::get($id) != $code) return false;
-
         self::delete($id);
-        return  true;
+        return true;
     }
 }
