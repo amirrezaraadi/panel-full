@@ -6,21 +6,30 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Manager\Article;
+use App\Repository\Manager\articleRepo;
+use App\Repository\Manager\categoryRepo;
+use App\Repository\Manager\tagRepo;
 use App\Service\JsonResponse;
 use SEO;
 
 class ArticleController extends Controller
 {
+    public function __construct(public articleRepo  $articleRepo,
+                                public tagRepo      $tagRepo,
+                                public categoryRepo $categoryRepo)
+    {
+    }
 
     public function index()
     {
-
+        return $this->articleRepo->index();
     }
 
     public function store(StoreArticleRequest $request)
     {
-
-        return JsonResponse::SuccessResponse('create article success' , 'success');
+        $category = $this->categoryRepo->getFindId($request->get('category_id'));
+        dd($category);
+        return JsonResponse::SuccessResponse('create article success', 'success');
     }
 
 
