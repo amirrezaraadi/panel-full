@@ -14,8 +14,16 @@ return new class extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('slug')->unique()->nullable();
-            $table->longText('description');
+            $table->string('slug')->unique();
+            $table->longText('image')->nullable();
+            $table->longText('content')->nullable();
+            $table->text('summary')->nullable();
+            $table->integer('min_read')->nullable();
+            $table->string('short_link')->nullable();
+            $table->enum('confirmation_status' , \App\Models\Manager\Article::$confirmationStatuses)
+                ->default(\App\Models\Manager\Article::CONFIRMATION_PENDING);
+            $table->foreignId('author_id')->constrained('users')->cascadeOnUpdate();// نویسنده
+            $table->softDeletes();
             $table->timestamps();
         });
     }
