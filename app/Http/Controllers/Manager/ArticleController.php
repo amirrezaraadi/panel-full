@@ -27,8 +27,9 @@ class ArticleController extends Controller
 
     public function store(StoreArticleRequest $request)
     {
+        dd($request->all());
         $category = $this->categoryRepo->getFindId($request->get('category_id'));
-        dd($category);
+
         return JsonResponse::SuccessResponse('create article success', 'success');
     }
 

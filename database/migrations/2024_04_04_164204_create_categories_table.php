@@ -11,7 +11,7 @@ return new class extends Migration {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('slug')->nullable();
+            $table->string('slug')->unique()->nullable();
             $table->string('icon')->nullable();
             $table->enum('status', \App\Models\Manager\Category::$status)
                 ->default(\App\Models\Manager\Category::STATUS_USER_PENDING);

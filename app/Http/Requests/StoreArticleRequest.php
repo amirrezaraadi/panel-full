@@ -23,7 +23,11 @@ class StoreArticleRequest extends FormRequest
     {
         return [
             'title'  => ['required' , 'string'],
-            'description' => ['required' , 'string']
+            'summary' => ['required' , 'string'],
+            'image' => ['required' , 'file'],
+            'content' => ['required' , 'string'],
+            'category_id' => ['required' , 'array'],
+            'tags' => ['required' , 'array'],
         ];
     }
 }
