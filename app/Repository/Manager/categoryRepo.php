@@ -29,6 +29,8 @@ class categoryRepo
 
     public function getFindName($name): array
     {
+        $title = $this->getFindArray($name);
+        dd($title);
         return Category::query()->whereIn('title' , $name)->get()->pluck('id')->toArray();
     }
 
@@ -57,5 +59,9 @@ class categoryRepo
         ]);
     }
 
+    public function getFindArray($name)
+    {
+        return explode(',' , $name);
+    }
 
 }
