@@ -27,6 +27,16 @@ return new class extends Migration {
                 ->cascadeOnDelete();
             $table->timestamps();
         });
+
+        Schema::create('categorizables', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('category_id')
+                ->constrained('categories')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->nullableMorphs('categorizable');
+            $table->timestamps();
+        });
     }
 
     public function down(): void

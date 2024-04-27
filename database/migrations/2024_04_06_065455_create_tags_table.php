@@ -21,6 +21,19 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->timestamps();
         });
+        Schema::create('taggables', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('tag_id')
+                ->constrained('tags')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->nullableMorphs('taggable');
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->timestamps();
+        });
     }
 
     public function down(): void

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug')->unique();
-            $table->longText('image')->nullable();
+//            $table->longText('image')->nullable();
             $table->longText('content')->nullable();
             $table->text('summary')->nullable();
             $table->integer('min_read')->nullable();

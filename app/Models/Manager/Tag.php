@@ -16,8 +16,6 @@ class Tag extends Model
         'slug',
         'user_id',
         'status',
-        'taggable_type',
-        'taggable_id'
     ];
 
     public function user()

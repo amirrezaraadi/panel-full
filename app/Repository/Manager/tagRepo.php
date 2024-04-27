@@ -4,6 +4,8 @@ namespace App\Repository\Manager;
 
 use App\Models\Manager\Tag;
 use App\Service\sluggable;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class tagRepo
 {
@@ -67,4 +69,50 @@ class tagRepo
                 'status' => $STATUS_USER_PENDING
             ]);
     }
+
+    public function getFindMulti($request)
+    {
+        $explode = $this->explodeId($request);
+        $tagIds = [];
+        foreach ($explode as $id) {
+            $tag = Tag::query()->firstOrCreate(
+                ['title' => $id],
+                ['title' => $id, 'slug' => Str::slug($id), 'user_id' => auth()->id()]
+            );
+            $tagIds[] = $tag->id;
+        }
+        return $tagIds;
+    }
+
+    private function explodeId($tags)
+    {
+        $tagsArray = explode(',', $tags);
+        return array_map(function ($tag) {
+            return preg_replace('/[\[\]\s]+/', '', $tag);
+        }, $tagsArray);
+//        return explode(',', $tags);
+    }
+
+    public function morphTags($tags,  $article)
+    {
+        return DB::table('taggables')->insert([
+            'taggable_id' => $article,
+            'taggable_type' => get_class($article),
+            'tag_id' => $tags,
+            'user_id' => auth()->id()
+        ]);
+    }
+
 }
+
+/*   زوش دوم برای تگ ها
+        public function getFindMulti($tags): array
+    {
+        $ids = $this->explodeId($tags);
+        return $this->query->whereIn('id', $ids)->get()->pluck('id')->toArray();
+   }
+ private function explodeId($tags)
+    {
+             return explode(',', $tags);
+    }
+*/

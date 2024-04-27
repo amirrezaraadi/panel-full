@@ -27,11 +27,10 @@ class categoryRepo
         return Category::query()->findOrFail($id);
     }
 
-    public function getFindName($name): array
+    public function getFindName($name)
     {
         $title = $this->getFindArray($name);
-        dd($title);
-        return Category::query()->whereIn('title' , $name)->get()->pluck('id')->toArray();
+        return Category::query()->whereIn('id' , $title)->get()->pluck('id')->toArray();
     }
 
     public function update($data  , $id   , $icon)
