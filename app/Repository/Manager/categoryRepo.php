@@ -72,7 +72,7 @@ class categoryRepo
 //        return explode(',', $categories);
     }
 
-    public function morphCategory($category,$article)
+    public function morphCategory($category , $article)
     {
         $categoreable = [];
         foreach ($category as $item) {

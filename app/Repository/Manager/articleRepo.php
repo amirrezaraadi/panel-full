@@ -44,9 +44,10 @@ class articleRepo
 
     public function getFindCategory($id)
     {
-       return $this->article->findOrFail($id);
+        return $this->article->findOrFail($id);
 
     }
+
     public function delete($id)
     {
         return $this->article->where('id', $id)->delete();
@@ -55,15 +56,16 @@ class articleRepo
     public function update($data, $article)
     {
         $wordCount = ContentText::minRead($data->get('content'));
-        dd($wordCount);
-        return Article::query()->where('id' , $article)->create([
-            'title' => $data['title'],
-            'slug' => sluggable::generate(Article::class, $data['title']),
-            'content' => $data['content'],
-            'summary' => $data['summary'],
-            'min_read' => $wordCount,
-            'author_id' => $data['author_id'] ?? auth()->id(),
-        ]);
+        return Article::query()
+            ->where('id', $article)
+            ->update([
+                'title' => $data['title'],
+                'slug' => sluggable::generate(Article::class, $data['title']),
+                'content' => $data['content'],
+                'summary' => $data['summary'],
+                'min_read' => $wordCount,
+                'author_id' => $data['author_id'] ?? auth()->id(),
+            ]);
     }
 
 }

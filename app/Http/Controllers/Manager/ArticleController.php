@@ -55,21 +55,27 @@ class ArticleController extends Controller
     }
 
 
-    public function update(UpdateArticleRequest $request, $article)
+    public function update(UpdateArticleRequest $request, $id)
     {
-        $article = $this->articleRepo->update($request, $article);
-        dd($article);
+        $articleId = $this->articleRepo->getFindCategory($id);
+        $article = $this->articleRepo->update($request, $articleId->id);
+        ///  start update image article
         if ($request->image) {
+            $deleteImage = ImageService::deleteImageArticle($articleId);
             $path = ImageService::generate($request->file('image'));
-            $media = $this->mediaRepo->createFile($path, $article);
+            $media = $this->mediaRepo->createFile($path, $articleId);
         }
+        ///  start update image article
+
         if ($request->get('tags')) {
+            $deleteTags = $this->tagRepo->deleteMorphTag($articleId);
             $tags = $this->tagRepo->getFindMulti($request->get('tags'));
-            $tagMorph = $this->tagRepo->morphTags($tags, $article);
+            $tagMorph = $this->tagRepo->morphTags($tags, $articleId);
         }
         if ($request->get('category_id')) {
+            $deleteCategory = $this->categoryRepo->deleteMorphCategory($articleId);
             $category = $this->categoryRepo->getFindName($request->get('category_id'));
-            $categoryMorph = $this->categoryRepo->morphCategory($category, $article);
+            $categoryMorph = $this->categoryRepo->morphCategory($category, $articleId);
         }
         return JsonResponse::SuccessResponse('create article success', 'success');
     }
