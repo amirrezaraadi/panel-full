@@ -26,6 +26,8 @@ return new class extends Migration {
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->timestamps();
+            $table->softDeletes();
+
         });
 
         Schema::create('categorizables', function (Blueprint $table) {
@@ -34,7 +36,13 @@ return new class extends Migration {
                 ->constrained('categories')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
+            $table->foreignId('user_id')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->nullableMorphs('categorizable');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

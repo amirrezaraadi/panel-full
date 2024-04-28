@@ -15,15 +15,15 @@ class articleRepo
         return $this->article->orderByDesc('created_at')->paginate();
     }
 
-    public function create($data , $min_read)
+    public function create($data)
     {
+        $wordCount = ContentText::minRead($data->get('content'));
         return Article::query()->create([
             'title' => $data['title'],
             'slug' => sluggable::generate(Article::class , $data['title']),
-//        'image',
             'content' => $data['content'],
             'summary' => $data['summary'],
-            'min_read' => $min_read ,
+            'min_read' => $wordCount ,
             'author_id' => $data['author_id'] ?? auth()->id() ,
         ]);
     }

@@ -3,6 +3,7 @@
 namespace App\Repository\Manager;
 use App\Models\Manager\Category;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Support\Facades\DB;
 
 class categoryRepo
 {
@@ -27,10 +28,10 @@ class categoryRepo
         return Category::query()->findOrFail($id);
     }
 
-    public function getFindName($name)
+    public function getFindName($data)
     {
-        $title = $this->getFindArray($name);
-        return Category::query()->whereIn('id' , $title)->get()->pluck('id')->toArray();
+        $title = $this->getFindArray($data);
+        return Category::query()->whereIn('title' , $title)->get()->pluck('id')->toArray();
     }
 
     public function update($data  , $id   , $icon)
@@ -58,9 +59,31 @@ class categoryRepo
         ]);
     }
 
-    public function getFindArray($name)
+//    public function getFindArray($name)
+//    {
+//        return explode(',' , $name);
+//    }
+    private function getFindArray($categories)
     {
-        return explode(',' , $name);
+        $tagsArray = explode(',', $categories);
+        return array_map(function ($category) {
+            return preg_replace('/[\[\]\s]+/', '', $category);
+        }, $tagsArray);
+//        return explode(',', $categories);
+    }
+
+    public function morphCategory($category,$article)
+    {
+        $categoreable = [];
+        foreach ($category as $item) {
+            $categoreable[] = [
+                'category_id' =>  $item,
+                'categorizable_type' =>  get_class($article),
+                'categorizable_id' =>  $article->id,
+                'user_id' => auth()->id()
+            ];
+        }
+        return DB::table('categorizables')->insert($categoreable);
     }
 
 }

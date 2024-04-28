@@ -81,6 +81,7 @@ class tagRepo
             );
             $tagIds[] = $tag->id;
         }
+
         return $tagIds;
     }
 
@@ -93,14 +94,29 @@ class tagRepo
 //        return explode(',', $tags);
     }
 
-    public function morphTags($tags,  $article)
+//    public function morphTags($tags,  $article)
+//    {
+//        foreach ($tags as $tag) {
+//            return DB::table('taggables')->insert([
+//                'taggable_id' => $article->id,
+//                'taggable_type' => get_class($article),
+//                'tag_id' => $tag ,
+//                'user_id' => auth()->id()
+//            ]);
+//        }
+//    }
+    public function morphTags($tags, $article)
     {
-        return DB::table('taggables')->insert([
-            'taggable_id' => $article,
-            'taggable_type' => get_class($article),
-            'tag_id' => $tags,
-            'user_id' => auth()->id()
-        ]);
+        $taggables = [];
+        foreach ($tags as $tag) {
+            $taggables[] = [
+                'taggable_id' => $article->id,
+                'taggable_type' => get_class($article),
+                'tag_id' => $tag,
+                'user_id' => auth()->id()
+            ];
+        }
+        return DB::table('taggables')->insert($taggables);
     }
 
 }

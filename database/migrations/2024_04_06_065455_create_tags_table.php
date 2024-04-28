@@ -20,6 +20,8 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->timestamps();
+            $table->softDeletes();
+
         });
         Schema::create('taggables', function (Blueprint $table) {
             $table->id();
@@ -33,6 +35,8 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 
