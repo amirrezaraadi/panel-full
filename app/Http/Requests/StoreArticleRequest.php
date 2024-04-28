@@ -28,7 +28,7 @@ class StoreArticleRequest extends FormRequest
             'content' => ['required', 'string'],
             'category_id' => ['required'],
 //            'tags' => ['required', 'array', 'min:3'],
-//            'tags.*' => ['required', 'string', 'min:3'],
+            'tags.*' => ['required', 'string', 'min:3'],
         ];
     }
 }

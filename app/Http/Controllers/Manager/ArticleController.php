@@ -12,6 +12,7 @@ use App\Repository\Manager\tagRepo;
 use App\Repository\Media\mediaRepo;
 use App\Service\ImageService;
 use App\Service\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use SEO;
 
 class ArticleController extends Controller
@@ -42,7 +43,7 @@ class ArticleController extends Controller
         }
         if ($request->get('category_id')) {
             $category = $this->categoryRepo->getFindName($request->get('category_id'));
-            $categoryMorph = $this->categoryRepo->morphCategory($category , $article );
+            $categoryMorph = $this->categoryRepo->morphCategory($category, $article);
         }
         return JsonResponse::SuccessResponse('create article success', 'success');
     }
@@ -54,14 +55,35 @@ class ArticleController extends Controller
     }
 
 
-    public function update(UpdateArticleRequest $request, Article $article)
+    public function update(UpdateArticleRequest $request, $article)
     {
-        //
+        $article = $this->articleRepo->update($request, $article);
+        dd($article);
+        if ($request->image) {
+            $path = ImageService::generate($request->file('image'));
+            $media = $this->mediaRepo->createFile($path, $article);
+        }
+        if ($request->get('tags')) {
+            $tags = $this->tagRepo->getFindMulti($request->get('tags'));
+            $tagMorph = $this->tagRepo->morphTags($tags, $article);
+        }
+        if ($request->get('category_id')) {
+            $category = $this->categoryRepo->getFindName($request->get('category_id'));
+            $categoryMorph = $this->categoryRepo->morphCategory($category, $article);
+        }
+        return JsonResponse::SuccessResponse('create article success', 'success');
     }
 
 
-    public function destroy(Article $article)
+    public function destroy($article)
     {
-        //
+        $id = $this->articleRepo->getFindCategory($article);
+        $deleteImage = $id->image()->delete();
+        $deleteCategory = $this->categoryRepo->deleteMorphCategory($id);
+        $deleteMorphTag = $this->tagRepo->deleteMorphTag($id);
+        $delete = $this->articleRepo->delete($article);
+
+        return JsonResponse::SuccessResponse('delete Article OK', 'success');
+
     }
 }

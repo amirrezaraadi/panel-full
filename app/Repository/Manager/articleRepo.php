@@ -40,8 +40,30 @@ class articleRepo
         }, 'categories' => function ($q) {
             $q->select(['categories.id', 'categories.title'])->get();
         }])->first()->append(['article_image']);
+    }
 
+    public function getFindCategory($id)
+    {
+       return $this->article->findOrFail($id);
 
+    }
+    public function delete($id)
+    {
+        return $this->article->where('id', $id)->delete();
+    }
+
+    public function update($data, $article)
+    {
+        $wordCount = ContentText::minRead($data->get('content'));
+        dd($wordCount);
+        return Article::query()->where('id' , $article)->create([
+            'title' => $data['title'],
+            'slug' => sluggable::generate(Article::class, $data['title']),
+            'content' => $data['content'],
+            'summary' => $data['summary'],
+            'min_read' => $wordCount,
+            'author_id' => $data['author_id'] ?? auth()->id(),
+        ]);
     }
 
 }

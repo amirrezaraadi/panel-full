@@ -119,6 +119,14 @@ class tagRepo
         return DB::table('taggables')->insert($taggables);
     }
 
+    public function deleteMorphTag($id)
+    {
+        foreach ($id->tags()->get() as $tag) {
+            DB::table('taggables')->where('taggable_id' , $id->id )
+                ->orWhere('taggable_type' , $id )->delete();
+        }
+    }
+
 }
 
 /*   زوش دوم برای تگ ها

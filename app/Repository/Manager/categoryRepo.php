@@ -86,4 +86,12 @@ class categoryRepo
         return DB::table('categorizables')->insert($categoreable);
     }
 
+    public function deleteMorphCategory($id)
+    {
+        foreach ($id->categories()->get() as $category) {
+            DB::table('categorizables')->where('categorizable_id' , $id->id)
+                ->orWhere('categorizable_type' , $id )->delete();
+        }
+    }
+
 }

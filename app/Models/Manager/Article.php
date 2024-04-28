@@ -51,6 +51,7 @@ class Article extends Model
     }
     public function getArticleImageAttribute(): string
     {
-        return asset('images/articles/' . $this->image->url);
+        dd(asset('images/articles/' . $this->image->url ?? null ) );
+        return asset('images/articles/' . $this->image->url ?? null ) ;
     }
 }
