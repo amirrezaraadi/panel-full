@@ -2,7 +2,7 @@
 
 namespace App\Repository\Manager;
 use App\Models\Manager\Category;
-use \Cviebrock\EloquentSluggable\Services\SlugService;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Facades\DB;
 
 class categoryRepo

@@ -20,8 +20,8 @@ return new class extends Migration
             $table->text('summary')->nullable();
             $table->integer('min_read')->nullable();
             $table->string('short_link')->nullable();
-            $table->enum('confirmation_status' , \App\Models\Manager\Article::$confirmationStatuses)
-                ->default(\App\Models\Manager\Article::CONFIRMATION_PENDING);
+            $table->enum('status' , \App\Models\Manager\Article::$status)
+                ->default(\App\Models\Manager\Article::STATUS_PENDING);
             $table->foreignId('author_id')->constrained('users')->cascadeOnUpdate();// نویسنده
             $table->softDeletes();
             $table->timestamps();

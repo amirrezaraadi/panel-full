@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
-use App\Http\Middleware\SeoMiddleware;
-//use Artesaos\SEOTools\Traits\SEOTools;
 use App\Notifications\Auth\ForegetPasswordNotification;
 use App\Notifications\Auth\successChangePasswordNotification;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Artesaos\SEOTools\Facades\SEOTools;
 use Spatie\Permission\Traits\HasRoles;
+
+//use Artesaos\SEOTools\Traits\SEOTools;
 
 
 class User extends Authenticatable implements MustVerifyEmail

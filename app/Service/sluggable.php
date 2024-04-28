@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Service;
-use \Cviebrock\EloquentSluggable\Services\SlugService;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 
 class sluggable
 {

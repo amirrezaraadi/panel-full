@@ -4,8 +4,6 @@ namespace App\Notifications\Auth;
 
 use App\Mail\Auth\successChangePasswordMail;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class successChangePasswordNotification extends Notification

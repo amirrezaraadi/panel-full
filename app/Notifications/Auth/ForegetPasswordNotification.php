@@ -5,8 +5,6 @@ namespace App\Notifications\Auth;
 use App\Mail\Auth\ForgetPasswordMail;
 use App\Service\VerifyCodeService;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class ForegetPasswordNotification extends Notification

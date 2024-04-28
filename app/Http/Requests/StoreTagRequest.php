@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\Manager\TitleRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreTagRequest extends FormRequest

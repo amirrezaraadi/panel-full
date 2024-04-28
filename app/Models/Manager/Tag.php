@@ -6,6 +6,8 @@ use App\Models\User;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Tag extends Model
 {
@@ -17,8 +19,13 @@ class Tag extends Model
         'user_id',
         'status',
     ];
-
-    public function user()
+    protected $hidden = [
+        'updated_at',
+        'created_at',
+        'user_id' ,
+        'pivot'
+    ];
+    public function user():BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -40,4 +47,9 @@ class Tag extends Model
             ]
         ];
     }
+    public function articles(): MorphToMany
+    {
+        return $this->morphedByMany(Article::class, 'taggable');
+    }
+
 }

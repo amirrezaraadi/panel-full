@@ -8,7 +8,6 @@ use App\Http\Requests\Manager\UserRequest;
 use App\Models\User;
 use App\Repository\Manager\userRepo;
 use App\Service\JsonResponse;
-use Illuminate\Http\Request;
 
 class UserContoller extends Controller
 {

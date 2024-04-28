@@ -2,8 +2,6 @@
 
 namespace App\Policies\Manager;
 
-use App\Models\User;
-
 class UserPolicy
 {
     /**

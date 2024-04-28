@@ -8,8 +8,6 @@ use App\Repository\Manager\userRepo;
 use App\Service\JsonResponse;
 use App\Service\VerifyCodeService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Validation\ValidationException;
 
 class PasswordResetLinkController extends Controller
 {

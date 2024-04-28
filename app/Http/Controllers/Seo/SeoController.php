@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Seo;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
+
 class SeoController extends Controller
 {
     public function sitemap()

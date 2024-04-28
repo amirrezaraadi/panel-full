@@ -3,7 +3,6 @@
 namespace App\Repository\Manager;
 
 use App\Models\User;
-use App\Service\JsonResponse;
 use App\Service\Token;
 use Illuminate\Support\Facades\Hash;
 

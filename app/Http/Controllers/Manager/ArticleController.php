@@ -10,10 +10,8 @@ use App\Repository\Manager\articleRepo;
 use App\Repository\Manager\categoryRepo;
 use App\Repository\Manager\tagRepo;
 use App\Repository\Media\mediaRepo;
-use App\Service\ContentText;
 use App\Service\ImageService;
 use App\Service\JsonResponse;
-use Illuminate\Support\Str;
 use SEO;
 
 class ArticleController extends Controller
@@ -45,15 +43,14 @@ class ArticleController extends Controller
         if ($request->get('category_id')) {
             $category = $this->categoryRepo->getFindName($request->get('category_id'));
             $categoryMorph = $this->categoryRepo->morphCategory($category , $article );
-            dd($categoryMorph);
         }
         return JsonResponse::SuccessResponse('create article success', 'success');
     }
 
 
-    public function show(Article $article)
+    public function show($article)
     {
-        //
+        return $this->articleRepo->getFindId($article);
     }
 
 

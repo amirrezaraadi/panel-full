@@ -3,7 +3,6 @@
 namespace App\Traits;
 
 use App\Models\Media\Image;
-use Illuminate\Database\Eloquent\Concerns\HasRelationships;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 trait HasImage
@@ -12,4 +11,5 @@ trait HasImage
     {
         return $this->morphOne(Image::class, 'imageable');
     }
+
 }
