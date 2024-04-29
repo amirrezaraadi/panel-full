@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Attribute;
 
-use App\Http\Requests\StoreImageRequest;
-use App\Http\Requests\UpdateImageRequest;
-use App\Models\Media\Image;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreLikeRequest;
+use App\Http\Requests\UpdateLikeRequest;
+use App\Models\AttributeSite\Like;
 
-class ImageController extends Controller
+class LikeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class ImageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreImageRequest $request)
+    public function store(StoreLikeRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class ImageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Image $image)
+    public function show(Like $like)
     {
         //
     }
@@ -43,7 +44,7 @@ class ImageController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Image $image)
+    public function edit(Like $like)
     {
         //
     }
@@ -51,7 +52,7 @@ class ImageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateImageRequest $request, Image $image)
+    public function update(UpdateLikeRequest $request, Like $like)
     {
         //
     }
@@ -59,7 +60,7 @@ class ImageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Image $image)
+    public function destroy(Like $like)
     {
         //
     }
