@@ -39,7 +39,7 @@ Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(f
 });
 
 Route::middleware(['auth:sanctum'])->prefix('status')->name('status')->group(function () {
-    /* users */
+    // * users * ///
     Route::put('users/ban/{user}', [\App\Http\Controllers\Manager\UserContoller::class, 'ban'])
         ->name('ban');
     Route::put('users/success/{user}', [\App\Http\Controllers\Manager\UserContoller::class, 'success'])
@@ -50,18 +50,29 @@ Route::middleware(['auth:sanctum'])->prefix('status')->name('status')->group(fun
         ->name('pending');
     Route::put('users/active/{user}', [\App\Http\Controllers\Manager\UserContoller::class, 'active'])
         ->name('active');
-    /* category */
+    //end user
+    /* start category */
     Route::put('category/success/{category}', [\App\Http\Controllers\Manager\CategoryController::class, 'success'])
         ->name('success');
     Route::put('category/reject/{category}', [\App\Http\Controllers\Manager\CategoryController::class, 'reject'])
         ->name('reject');
     Route::put('category/pending/{category}', [\App\Http\Controllers\Manager\CategoryController::class, 'pending'])
         ->name('pending');
-    /* tags */
+    /* end category */
+    /* start tags */
     Route::put('tag/success/{tag}', [\App\Http\Controllers\Manager\TagController::class, 'success'])
         ->name('success');
     Route::put('tag/reject/{tag}', [\App\Http\Controllers\Manager\TagController::class, 'reject'])
         ->name('reject');
     Route::put('tag/pending/{tag}', [\App\Http\Controllers\Manager\TagController::class, 'pending'])
         ->name('pending');
+    /* end  tags */
+    /* start article */
+    Route::put('article/success/{article}', [\App\Http\Controllers\Manager\ArticleController::class, 'success'])
+        ->name('success');
+    Route::put('article/reject/{article}', [\App\Http\Controllers\Manager\ArticleController::class, 'reject'])
+        ->name('reject');
+    Route::put('article/pending/{article}', [\App\Http\Controllers\Manager\ArticleController::class, 'pending'])
+        ->name('pending');
+    /* end  article */
 });

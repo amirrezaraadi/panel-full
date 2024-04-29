@@ -12,8 +12,6 @@ use App\Repository\Manager\tagRepo;
 use App\Repository\Media\mediaRepo;
 use App\Service\ImageService;
 use App\Service\JsonResponse;
-use Illuminate\Support\Facades\DB;
-use SEO;
 
 class ArticleController extends Controller
 {
@@ -30,7 +28,7 @@ class ArticleController extends Controller
         return $this->articleRepo->index();
     }
 
-    public function store(StoreArticleRequest $request)
+    public function store(StoreArticleRequest $request): \Illuminate\Http\JsonResponse
     {
         $article = $this->articleRepo->create($request);
         if ($request->image) {
@@ -55,18 +53,15 @@ class ArticleController extends Controller
     }
 
 
-    public function update(UpdateArticleRequest $request, $id)
+    public function update(UpdateArticleRequest $request, $id): \Illuminate\Http\JsonResponse
     {
         $articleId = $this->articleRepo->getFindCategory($id);
         $article = $this->articleRepo->update($request, $articleId->id);
-        ///  start update image article
         if ($request->image) {
             $deleteImage = ImageService::deleteImageArticle($articleId);
             $path = ImageService::generate($request->file('image'));
             $media = $this->mediaRepo->createFile($path, $articleId);
         }
-        ///  start update image article
-
         if ($request->get('tags')) {
             $deleteTags = $this->tagRepo->deleteMorphTag($articleId);
             $tags = $this->tagRepo->getFindMulti($request->get('tags'));
@@ -81,15 +76,34 @@ class ArticleController extends Controller
     }
 
 
-    public function destroy($article)
+    public function destroy($article): \Illuminate\Http\JsonResponse
     {
         $id = $this->articleRepo->getFindCategory($article);
         $deleteImage = $id->image()->delete();
         $deleteCategory = $this->categoryRepo->deleteMorphCategory($id);
         $deleteMorphTag = $this->tagRepo->deleteMorphTag($id);
         $delete = $this->articleRepo->delete($article);
-
         return JsonResponse::SuccessResponse('delete Article OK', 'success');
+    }
 
+    public function success($id): \Illuminate\Http\JsonResponse
+    {
+        $this->articleRepo->getFindCategory($id);
+        $this->articleRepo->status($id, Article::STATUS_SUCCESS);
+        return JsonResponse::SuccessResponse('The situation changed correctly', 'success');
+    }
+
+    public function pending($id): \Illuminate\Http\JsonResponse
+    {
+        $this->articleRepo->getFindCategory($id);
+        $this->articleRepo->status($id, Article::STATUS_PENDING);
+        return JsonResponse::SuccessResponse('The situation changed correctly', 'success');
+    }
+
+    public function reject($id): \Illuminate\Http\JsonResponse
+    {
+        $this->articleRepo->getFindCategory($id);
+        $this->articleRepo->status($id, Article::STATUS_REJECT);
+        return JsonResponse::SuccessResponse('The situation changed correctly', 'success');
     }
 }

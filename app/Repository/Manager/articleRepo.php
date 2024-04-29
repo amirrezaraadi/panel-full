@@ -53,7 +53,7 @@ class articleRepo
         return $this->article->where('id', $id)->delete();
     }
 
-    public function update($data, $article)
+    public function update($data, $article): int
     {
         $wordCount = ContentText::minRead($data->get('content'));
         return Article::query()
@@ -66,6 +66,12 @@ class articleRepo
                 'min_read' => $wordCount,
                 'author_id' => $data['author_id'] ?? auth()->id(),
             ]);
+    }
+
+    public function status($id , $status): int
+    {
+        return $this->article->where('id' , $id)
+            ->update(['status' => $status]);
     }
 
 }

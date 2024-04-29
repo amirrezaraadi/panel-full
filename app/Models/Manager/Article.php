@@ -39,7 +39,8 @@ class Article extends Model
     static $status = [
         self::STATUS_PENDING,
         self::STATUS_REJECT,
-        self::STATUS_SUCCESS];
+        self::STATUS_SUCCESS
+    ];
 
     public function sluggable(): array
     {
@@ -51,7 +52,6 @@ class Article extends Model
     }
     public function getArticleImageAttribute(): string
     {
-        dd(asset('images/articles/' . $this->image->url ?? null ) );
         return asset('images/articles/' . $this->image->url ?? null ) ;
     }
 }
