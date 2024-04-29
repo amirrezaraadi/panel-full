@@ -6,60 +6,54 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBookmarkRequest;
 use App\Http\Requests\UpdateBookmarkRequest;
 use App\Models\AttributeSite\Bookmark;
+use App\Repository\Attribute\bookmarkRepo;
+use App\Repository\Manager\articleRepo;
+use App\Service\JsonResponse;
 
 class BookmarkController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(public bookmarkRepo $bookmarkRepo)
+    {
+    }
+
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(StoreBookmarkRequest $request, articleRepo $articleRepo)
     {
-        //
+        $type = $request->input('type');
+        $id = $request->input('id');
+
+        switch ($type) {
+            case 'article':
+                $bookmarkable = $articleRepo->getFindCategory($id);
+                break;
+            default:
+                return JsonResponse::NotFoundResponse('not model', 'error');
+        }
+        $bookmatk = $this->bookmarkRepo->store($bookmarkable);
+        if ($bookmatk === false)
+            return JsonResponse::SuccessResponse('Cancel bookmark :)', 'success');
+        if ($bookmatk === true)
+            return JsonResponse::SuccessResponse('Again bookmark :)', 'success');
+        return JsonResponse::SuccessResponse('bookmark :)', 'success');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreBookmarkRequest $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Bookmark $bookmark)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Bookmark $bookmark)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateBookmarkRequest $request, Bookmark $bookmark)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(Bookmark $bookmark)
     {
         //

@@ -123,7 +123,7 @@ class tagRepo
     {
         foreach ($id->tags()->get() as $tag) {
             DB::table('taggables')->where('taggable_id', $id->id)
-                ->orWhere('taggable_type', $id)->delete();
+                ->where('taggable_type', $id)->delete();
         }
     }
 

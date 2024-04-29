@@ -90,7 +90,7 @@ class categoryRepo
     {
         foreach ($id->categories()->get() as $category) {
             DB::table('categorizables')->where('categorizable_id' , $id->id)
-                ->orWhere('categorizable_type' , $id )->delete();
+                ->where('categorizable_type' , $id )->delete();
         }
     }
 

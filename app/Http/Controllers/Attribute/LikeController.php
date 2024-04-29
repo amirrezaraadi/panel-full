@@ -35,8 +35,10 @@ class LikeController extends Controller
                 return JsonResponse::NotFoundResponse('not model', 'error');
         }
         $like = $this->likeRepo->store($bookmarkable);
-        if($like === true)
+        if($like === false)
             return JsonResponse::SuccessResponse('Dislike done right :)', 'success');
+        if($like === true)
+            return JsonResponse::SuccessResponse('like Again :)', 'success');
         return JsonResponse::SuccessResponse('Liked done right :)', 'success');
     }
 

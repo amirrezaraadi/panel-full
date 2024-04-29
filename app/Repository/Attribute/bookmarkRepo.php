@@ -2,11 +2,9 @@
 
 namespace App\Repository\Attribute;
 
-use App\Models\AttributeSite\Like;
-use Illuminate\Support\Facades\DB;
-use function Psy\debug;
+use App\Models\AttributeSite\Bookmark;
 
-class likeRepo
+class bookmarkRepo
 {
     public function index_manager()
     {
@@ -30,7 +28,8 @@ class likeRepo
 
     public function store($bookmarkable)
     {
-        $check = $this->checkLike($bookmarkable);
+        $check = $this->checkBookMark($bookmarkable);
+
         if (!is_null($check) ) {
             if($check->is_state === 0 ){
                 $check->update(['is_state' => 1]);
@@ -40,19 +39,19 @@ class likeRepo
             $check->update(['is_state' => false]);
             return false;
         }
-        return Like::query()->create([
-            'likeable_type' => get_class($bookmarkable),
-            'likeable_id' => $bookmarkable->id,
-            'is_state' => 1,
-            'user_id' => auth()->user()->id
-        ]);
+            return Bookmark::query()->create([
+                'bookmarkable_type' => get_class($bookmarkable),
+                'bookmarkable_id' => $bookmarkable->id,
+                'is_state' => 1,
+                'user_id' => auth()->user()->id
+            ]);
     }
 
-    public function checkLike($bookmarkable)
+    public function checkBookMark($bookmarkable)
     {
-        return Like::query()->where('likeable_type', get_class($bookmarkable))
-            ->where('likeable_id', $bookmarkable->id)
-            ->where('user_id', auth()->id())
+        return Bookmark::query()->where('bookmarkable_type', get_class($bookmarkable))
+            ->where('bookmarkable_id', $bookmarkable->id)
+            ->where('user_id', auth()->id() )
             ->first();
     }
 

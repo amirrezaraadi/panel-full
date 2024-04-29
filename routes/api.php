@@ -40,6 +40,7 @@ Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(f
     Route::apiResource('tags', \App\Http\Controllers\Manager\TagController::class);
     Route::apiResource('articles', \App\Http\Controllers\Manager\ArticleController::class);
     Route::apiResource('likes', \App\Http\Controllers\Attribute\LikeController::class);
+    Route::apiResource('bookmarks', \App\Http\Controllers\Attribute\BookmarkController::class);
 });
 // end panel manager
 

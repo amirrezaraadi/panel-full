@@ -21,7 +21,7 @@ class ImageService
     public static function deleteImageArticle($file)
     {
         $deleteImage =  Image::query()->where(  'imageable_type' , $file)
-                        ->orWhere( 'imageable_id'  ,  $file->id )->first() ;
+                        ->where( 'imageable_id'  ,  $file->id )->first() ;
           if( ! is_null( $deleteImage  )) {
               if ( File::exists(public_path('images/articles/' .  $deleteImage->url ))) {
                   File::delete(public_path('images/articles/' . $deleteImage->url ));

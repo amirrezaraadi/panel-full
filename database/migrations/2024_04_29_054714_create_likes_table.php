@@ -20,6 +20,7 @@ return new class extends Migration
                 ->cascadeOnUpdate();
             $table->boolean('is_state')->default(0);
             $table->morphs('likeable');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

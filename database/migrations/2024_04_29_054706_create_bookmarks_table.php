@@ -20,6 +20,7 @@ return new class extends Migration
                 ->cascadeOnUpdate();
             $table->morphs('bookmarkable');
             $table->boolean('is_state')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
