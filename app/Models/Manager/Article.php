@@ -2,8 +2,11 @@
 
 namespace App\Models\Manager;
 
+use App\Traits\HasBookMark;
 use App\Traits\HasCategory;
+use App\Traits\HasComment;
 use App\Traits\HasImage;
+use App\Traits\HasLike;
 use App\Traits\HasTag;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +16,10 @@ use Illuminate\Support\Str;
 
 class Article extends Model
 {
-    use HasFactory , SoftDeletes , Sluggable , HasImage , HasCategory , HasTag ;
+    use HasFactory , SoftDeletes , Sluggable ,
+        HasImage , HasCategory , HasTag ,
+        HasBookMark , HasLike , HasComment
+        ;
 
     protected $fillable = [
         'title',

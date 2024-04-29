@@ -35,7 +35,7 @@ class articleRepo
 
     public function getFindId($articleId)
     {
-        return $this->article->where('id', $articleId)->with(['tags' => function ($q) {
+        return $this->article->where('id' , $articleId)->with(['tags' => function ($q) {
             $q->select(['tags.id', 'tags.title'])->get();
         }, 'categories' => function ($q) {
             $q->select(['categories.id', 'categories.title'])->get();

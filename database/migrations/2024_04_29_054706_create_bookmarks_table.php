@@ -19,6 +19,7 @@ return new class extends Migration
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
             $table->morphs('bookmarkable');
+            $table->boolean('is_state')->default(0);
             $table->timestamps();
         });
     }

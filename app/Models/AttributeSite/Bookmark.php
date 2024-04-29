@@ -10,6 +10,6 @@ class Bookmark extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'bookmarkable_type', 'bookmarkable_id',
+        'user_id', 'bookmarkable_type', 'bookmarkable_id' , 'is_state',
     ];
 }

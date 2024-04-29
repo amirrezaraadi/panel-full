@@ -10,6 +10,7 @@ Route::prefix('seo')->name('seo')->group(function () {
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
+// start authentication
 Route::prefix('auth')->name('auth')->group(function () {
     Route::post('register', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'store'])
         ->middleware('guest')
@@ -30,14 +31,19 @@ Route::prefix('auth')->name('auth')->group(function () {
 //        ->middleware('guest')
         ->name('change-password');
 });
+// end authentication
 
+// start panel manager
 Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(function () {
     Route::apiResource('users', \App\Http\Controllers\Manager\UserContoller::class);
     Route::apiResource('category', \App\Http\Controllers\Manager\CategoryController::class);
     Route::apiResource('tags', \App\Http\Controllers\Manager\TagController::class);
     Route::apiResource('articles', \App\Http\Controllers\Manager\ArticleController::class);
+    Route::apiResource('likes', \App\Http\Controllers\Attribute\LikeController::class);
 });
+// end panel manager
 
+// status
 Route::middleware(['auth:sanctum'])->prefix('status')->name('status')->group(function () {
     // * users * ///
     Route::put('users/ban/{user}', [\App\Http\Controllers\Manager\UserContoller::class, 'ban'])
@@ -76,3 +82,4 @@ Route::middleware(['auth:sanctum'])->prefix('status')->name('status')->group(fun
         ->name('pending');
     /* end  article */
 });
+// end status

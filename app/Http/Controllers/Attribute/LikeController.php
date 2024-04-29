@@ -6,60 +6,52 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLikeRequest;
 use App\Http\Requests\UpdateLikeRequest;
 use App\Models\AttributeSite\Like;
+use App\Repository\Attribute\likeRepo;
+use App\Repository\Manager\articleRepo;
+use App\Service\JsonResponse;
+use Psy\Util\Json;
 
 class LikeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(public likeRepo $likeRepo)
+    {
+    }
+
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(StoreLikeRequest $request, articleRepo $articleRepo): \Illuminate\Http\JsonResponse
     {
-        //
+        $type = $request->input('type');
+        $id = $request->input('id');
+
+        switch ($type) {
+            case 'article':
+                $bookmarkable = $articleRepo->getFindCategory($id);
+                break;
+            default:
+                return JsonResponse::NotFoundResponse('not model', 'error');
+        }
+        $like = $this->likeRepo->store($bookmarkable);
+        if($like === true)
+            return JsonResponse::SuccessResponse('Dislike done right :)', 'success');
+        return JsonResponse::SuccessResponse('Liked done right :)', 'success');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreLikeRequest $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Like $like)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Like $like)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateLikeRequest $request, Like $like)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(Like $like)
     {
         //
