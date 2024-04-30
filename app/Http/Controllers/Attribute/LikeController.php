@@ -9,6 +9,7 @@ use App\Models\AttributeSite\Like;
 use App\Repository\Attribute\likeRepo;
 use App\Repository\Manager\articleRepo;
 use App\Service\JsonResponse;
+use App\Service\morph;
 use Psy\Util\Json;
 
 class LikeController extends Controller
@@ -22,19 +23,10 @@ class LikeController extends Controller
         //
     }
 
-    public function store(StoreLikeRequest $request, articleRepo $articleRepo): \Illuminate\Http\JsonResponse
+    public function store(StoreLikeRequest $request): \Illuminate\Http\JsonResponse
     {
-        $type = $request->input('type');
-        $id = $request->input('id');
-
-        switch ($type) {
-            case 'article':
-                $bookmarkable = $articleRepo->getFindCategory($id);
-                break;
-            default:
-                return JsonResponse::NotFoundResponse('not model', 'error');
-        }
-        $like = $this->likeRepo->store($bookmarkable);
+        $likes = morph::morph($request);
+        $like = $this->likeRepo->store($likes);
         if($like === false)
             return JsonResponse::SuccessResponse('Dislike done right :)', 'success');
         if($like === true)

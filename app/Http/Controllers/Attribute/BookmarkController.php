@@ -9,6 +9,7 @@ use App\Models\AttributeSite\Bookmark;
 use App\Repository\Attribute\bookmarkRepo;
 use App\Repository\Manager\articleRepo;
 use App\Service\JsonResponse;
+use App\Service\morph;
 
 class BookmarkController extends Controller
 {
@@ -23,16 +24,7 @@ class BookmarkController extends Controller
 
     public function store(StoreBookmarkRequest $request, articleRepo $articleRepo)
     {
-        $type = $request->input('type');
-        $id = $request->input('id');
-
-        switch ($type) {
-            case 'article':
-                $bookmarkable = $articleRepo->getFindCategory($id);
-                break;
-            default:
-                return JsonResponse::NotFoundResponse('not model', 'error');
-        }
+        $bookmarkable = morph::morph($request);
         $bookmatk = $this->bookmarkRepo->store($bookmarkable);
         if ($bookmatk === false)
             return JsonResponse::SuccessResponse('Cancel bookmark :)', 'success');

@@ -41,6 +41,7 @@ Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(f
     Route::apiResource('articles', \App\Http\Controllers\Manager\ArticleController::class);
     Route::apiResource('likes', \App\Http\Controllers\Attribute\LikeController::class);
     Route::apiResource('bookmarks', \App\Http\Controllers\Attribute\BookmarkController::class);
+    Route::apiResource('comments' , \App\Http\Controllers\Attribute\CommentController::class);
 });
 // end panel manager
 
@@ -90,6 +91,5 @@ Route::prefix('/front')->name('front')->group(function () {
         ->name('articles');
     Route::get('single_article/{slug}', [\App\Http\Controllers\Front\LandingArticleController::class, 'single'])
         ->name('single');
-
 });
 
