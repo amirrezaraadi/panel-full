@@ -33,8 +33,6 @@ class LikeController extends Controller
             return JsonResponse::SuccessResponse('like Again :)', 'success');
         return JsonResponse::SuccessResponse('Liked done right :)', 'success');
     }
-
-
     public function show(Like $like)
     {
         //
