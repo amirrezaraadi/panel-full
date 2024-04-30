@@ -35,7 +35,7 @@ class LikeController extends Controller
     }
     public function show(Like $like)
     {
-        //
+        /
     }
 
     public function update(UpdateLikeRequest $request, Like $like)
