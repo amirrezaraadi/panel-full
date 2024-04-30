@@ -20,7 +20,7 @@ return [
 
         'article' => [
             'driver' => 'local',
-            'root' => public_path('images'),
+            'root' => public_path('/images'),
             'url' => env('APP_URL').'/public',
             'visibility' => 'public',
             'throw' => false,

@@ -82,5 +82,14 @@ Route::middleware(['auth:sanctum'])->prefix('status')->name('status')->group(fun
     Route::put('article/pending/{article}', [\App\Http\Controllers\Manager\ArticleController::class, 'pending'])
         ->name('pending');
     /* end  article */
+
 });
-// end status
+// start front
+Route::prefix('/front')->name('front')->group(function () {
+    Route::get('/landing_articles', [\App\Http\Controllers\Front\LandingArticleController::class, 'index'])
+        ->name('articles');
+    Route::get('single_article/{slug}', [\App\Http\Controllers\Front\LandingArticleController::class, 'single'])
+        ->name('single');
+
+});
+

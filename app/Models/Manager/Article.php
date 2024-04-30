@@ -2,6 +2,7 @@
 
 namespace App\Models\Manager;
 
+use App\Models\User;
 use App\Traits\HasBookMark;
 use App\Traits\HasCategory;
 use App\Traits\HasComment;
@@ -11,15 +12,15 @@ use App\Traits\HasTag;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Article extends Model
 {
-    use HasFactory , SoftDeletes , Sluggable ,
-        HasImage , HasCategory , HasTag ,
-        HasBookMark , HasLike , HasComment
-        ;
+    use HasFactory, SoftDeletes, Sluggable,
+        HasImage, HasCategory, HasTag,
+        HasBookMark, HasLike, HasComment;
 
     protected $fillable = [
         'title',
@@ -29,9 +30,10 @@ class Article extends Model
         'min_read',
         'short_link',
         'status',
-        'author_id' ,
+        'author_id',
     ];
-        protected $hidden = ['image'];
+    protected $hidden = ['image'];
+
     public static function booted(): void
     {
         static::saving(function ($article) {
@@ -56,8 +58,19 @@ class Article extends Model
             ]
         ];
     }
+    protected $appends = ['article_image'];
     public function getArticleImageAttribute(): string
     {
-        return asset('images/articles/' . $this->image->url ?? null ) ;
+        return asset('images/articles/' . $this->image->url ?? null);
     }
+
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'author_id');
+    }
+    public function path()
+    {
+        return route('article/', $this->id . '-' . $this->slug);
+    }
+
 }

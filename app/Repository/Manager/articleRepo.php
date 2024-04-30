@@ -74,4 +74,30 @@ class articleRepo
             ->update(['status' => $status]);
     }
 
+//    public function landingArticleSuccess()
+//    {
+//        return Article::query()->where('status',
+//            Article::STATUS_SUCCESS)
+//            ->with(['author' => function ($q) {
+//                $q->select(['id' , 'name' , 'profile']);
+//            }])
+//            ->orderByDesc('created_at')->paginate(5);
+//    }
+    public function landingArticleSuccess()
+    {
+        return Article::query()->where('status',
+            Article::STATUS_SUCCESS)
+            ->with(['author' => function ($q) {
+                $q->select(['id' , 'name' , 'profile']);
+            }])
+            ->orderByDesc('created_at')->paginate(1);
+    }
+
+
+
+
+    public function getBySlug(string $articleId)
+    {
+        return Article::query()->where('slug', $articleId)->first();
+    }
 }
