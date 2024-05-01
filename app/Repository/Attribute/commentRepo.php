@@ -34,4 +34,14 @@ class commentRepo
             "commentable_type" => $data["commentable_type"],
         ]);
     }
+    public function findOrFail($id)
+    {
+        return Comment::query()->findOrFail($id);
+    }
+
+    public function delete($comment)
+    {
+        $id = $this->findOrFail($comment);
+        return Comment::query()->where('id' , $comment)->delete();
+    }
 }

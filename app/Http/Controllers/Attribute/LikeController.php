@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Attribute;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLikeRequest;
 use App\Http\Requests\UpdateLikeRequest;
+use App\Models\AttributeSite\Comment;
 use App\Models\AttributeSite\Like;
 use App\Repository\Attribute\likeRepo;
 use App\Repository\Manager\articleRepo;
