@@ -2,6 +2,7 @@
 
 namespace App\Repository\Manager;
 
+use App\Models\AttributeSite\Comment;
 use App\Models\Manager\Article;
 use App\Service\ContentText;
 use App\Service\sluggable;
@@ -90,7 +91,7 @@ class articleRepo
             ->with(['author' => function ($q) {
                 $q->select(['id', 'name', 'profile']);
             }])
-            ->orderByDesc('created_at')->paginate(1);
+            ->orderByDesc('created_at')->paginate(2);
     }
 
 
@@ -131,5 +132,23 @@ class articleRepo
     public function paginateParents($status = null)
     {
         return $this->article->paginate();
+    }
+
+    public function frontSingleArticle($slug)
+    {
+        $articlesRepo = $this->getBySlug($slug);
+        $articlesRepo->load([
+            'author' => function ($query) {
+                return $query->select(['users.id', 'users.name', 'users.profile', 'users.email']);
+            }, 'tags' => function ($query) {
+                return $query->select(['tags.id', 'tags.title']);
+            }, 'categories' => function ($query) {
+                return $query->select(['categories.id', 'categories.title']);
+            }, 'comments' => function ($query) {
+                return $query
+                    ->where('status', Comment::STATUS_APPROVED)
+                    ->with(['replies']);
+            }])->loadCount('comments', 'liked', 'bookmarks')->append(['article_image']);
+       return  $articlesRepo->makeHidden(['image', 'summary', 'status', 'author_id', 'updated_at']);
     }
 }
