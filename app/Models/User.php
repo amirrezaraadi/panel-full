@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\AttributeSite\Comment;
 use App\Notifications\Auth\ForegetPasswordNotification;
 use App\Notifications\Auth\successChangePasswordNotification;
 use Artesaos\SEOTools\Facades\SEOTools;
@@ -66,6 +67,10 @@ class User extends Authenticatable implements MustVerifyEmail
         static::saved(function ($user) {
             SEOTools::setTitle($user->name);
         });
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
 }

@@ -7,15 +7,16 @@ use App\Models\RolePermission\Permission;
 
 class commentRepo
 {
-    public $query ;
+    public $query;
+
     public function __construct()
     {
-        $this->query =  Comment::query() ;
+        $this->query = Comment::query();
     }
 
     public function index()
     {
-        return  $this->query->paginate();
+        return $this->query->paginate();
     }
 
     public function create($data)
@@ -23,7 +24,7 @@ class commentRepo
         return Comment::query()->create([
             "user_id" => auth()->id(),
             "status" => (auth()->user()->can(Permission::PERMISSION_MANAGE_COMMENTS) ||
-                auth()->user()->can(Permission::PERMISSION_TEACH))
+                auth()->user()->can(Permission::PERMISSION_ADMIN))
                 ?
                 Comment::STATUS_APPROVED
                 :
@@ -34,6 +35,7 @@ class commentRepo
             "commentable_type" => $data["commentable_type"],
         ]);
     }
+
     public function findOrFail($id)
     {
         return Comment::query()->findOrFail($id);
@@ -42,6 +44,43 @@ class commentRepo
     public function delete($comment)
     {
         $id = $this->findOrFail($comment);
-        return Comment::query()->where('id' , $comment)->delete();
+        return Comment::query()->where('id', $comment)->delete();
     }
+
+    public function searchBody($body)
+    {
+        $this->query->where("body", "like", "%" . $body . "%");
+        return $this;
+    }
+
+    public function searchStatus($status)
+    {
+        if ($status)
+            $this->query->where("status", $status);
+        return $this;
+    }
+
+    public function searchEmail($email)
+    {
+        $this->query->whereHas("user", function ($q) use ($email) {
+            return $q->where("email", "like", "%" . $email . "%");
+        });
+
+        return $this;
+    }
+
+    public function searchName($name)
+    {
+        $this->query->whereHas("user", function ($q) use ($name) {
+            return $q->where("name", "like", "%" . $name . "%");
+        });
+
+        return $this;
+    }
+
+    public function paginateParents($status = null)
+    {
+        return $this->query->latest()->paginate();
+    }
+
 }
