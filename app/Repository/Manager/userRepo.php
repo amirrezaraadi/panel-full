@@ -87,4 +87,21 @@ class userRepo
     {
         return $this->query->where('email', $email)->first();
     }
+
+    public function searchName($name)
+    {
+        $this->query->where('name' , "LIKE" , "%" . $name . "%");
+        return $this ;
+    }
+
+    public function searchEmail($email)
+    {
+        $this->query->where('email' , "LIKE" , "%" . $email . "%");
+        return $this ;
+    }
+
+    public function paginateUser()
+    {
+        return $this->query->latest()->paginate();
+    }
 }

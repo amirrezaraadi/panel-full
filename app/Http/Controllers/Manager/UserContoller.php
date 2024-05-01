@@ -17,7 +17,13 @@ class UserContoller extends Controller
 
     public function index()
     {
-        return $users = $this->userRepo->index();
+        $users = $this->userRepo
+            ->searchName(request('name'))
+            ->searchEmail(request('email'))
+//            ->searchPhone(request('name'))
+//            ->searchName(request('name'))
+        ;
+        return $users->paginateUser();
     }
 
     public function store(RegisterRequest $request): \Illuminate\Http\JsonResponse
