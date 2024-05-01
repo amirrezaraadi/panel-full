@@ -17,7 +17,13 @@ class CategoryController extends Controller
 
     public function index()
     {
-        return $categories = $this->categoryRepo->index();
+         $categories = $this->categoryRepo
+            ->searchTitle(request('title'))
+            ->searchName(request('name'))
+            ->searchEmail(request('email'))
+            ->searchStatus(request('status'));
+
+        return $categories->paginageCategorey();
     }
 
     public function store(StoreCategoryRequest $request)

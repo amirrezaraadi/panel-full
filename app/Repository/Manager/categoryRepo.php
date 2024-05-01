@@ -1,61 +1,69 @@
 <?php
 
 namespace App\Repository\Manager;
+
 use App\Models\Manager\Category;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Facades\DB;
 
 class categoryRepo
 {
+    private $query;
+
+    public function __construct()
+    {
+        $this->query = Category::query();
+    }
+
     public function index()
     {
         return Category::query()->get();
     }
 
-    public function create($data , $icon)
+    public function create($data, $icon)
     {
-            return Category::query()->create([
-                'title' => $data['title'],
-                'slug' =>  SlugService::createSlug(Category::class, 'slug', $data['title']),
-                'icon' => $icon,
-                'parent_id' => $data['parent_id'],
-                'user_id' => auth()->id(),
-            ]);
+        return $this->query->create([
+            'title' => $data['title'],
+            'slug' => SlugService::createSlug(Category::class, 'slug', $data['title']),
+            'icon' => $icon,
+            'parent_id' => $data['parent_id'],
+            'user_id' => auth()->id(),
+        ]);
     }
 
     public function getFindId($id)
     {
-        return Category::query()->findOrFail($id);
+        return $this->query->findOrFail($id);
     }
 
     public function getFindName($data)
     {
         $title = $this->getFindArray($data);
-        return Category::query()->whereIn('title' , $title)->get()->pluck('id')->toArray();
+        return $this->query->whereIn('title', $title)->get()->pluck('id')->toArray();
     }
 
-    public function update($data  , $id   , $icon)
+    public function update($data, $id, $icon)
     {
         $category = $this->getFindId($id);
-        return Category::query()->where('id' , $id)->update([
+        return $this->query->where('id', $id)->update([
             'title' => $data['title'] ?? $category->title,
-            'slug' =>  SlugService::createSlug(Category::class, 'slug', $data['title'] ?? $category->title) ,
-            'icon' => $icon ?? $category->icon ,
+            'slug' => SlugService::createSlug(Category::class, 'slug', $data['title'] ?? $category->title),
+            'icon' => $icon ?? $category->icon,
             'parent_id' => $data['parent_id'] ?? $category->parent_id,
-            'user_id' => auth()->id() ,
+            'user_id' => auth()->id(),
         ]);
     }
 
     public function delete($id)
     {
-        return Category::query()->where('id' , $id)->delete();
+        return $this->query->where('id', $id)->delete();
     }
 
-    public function status($id , $status)
+    public function status($id, $status)
     {
         $this->getFindId($id);
-        return Category::query()->where('id' , $id)->update([
-           'status' => $status
+        return $this->query->where('id', $id)->update([
+            'status' => $status
         ]);
     }
 
@@ -72,14 +80,14 @@ class categoryRepo
 //        return explode(',', $categories);
     }
 
-    public function morphCategory($category , $article)
+    public function morphCategory($category, $article)
     {
         $categoreable = [];
         foreach ($category as $item) {
             $categoreable[] = [
-                'category_id' =>  $item,
-                'categorizable_type' =>  get_class($article),
-                'categorizable_id' =>  $article->id,
+                'category_id' => $item,
+                'categorizable_type' => get_class($article),
+                'categorizable_id' => $article->id,
                 'user_id' => auth()->id()
             ];
         }
@@ -89,9 +97,45 @@ class categoryRepo
     public function deleteMorphCategory($id)
     {
         foreach ($id->categories()->get() as $category) {
-            DB::table('categorizables')->where('categorizable_id' , $id->id)
-                ->where('categorizable_type' , $id )->delete();
+            DB::table('categorizables')->where('categorizable_id', $id->id)
+                ->where('categorizable_type', $id)->delete();
         }
     }
+
+    public function searchTitle($title)
+    {
+        $this->query->where("title", "LIKE" , "%" . $title . "%");
+        return $this;
+    }
+
+    public function searchName($name)
+    {
+        $this->query->whereHas('user', function ($query) use ($name) {
+            $query->where("name", "LIKE", "%" . $name . "%");
+        });
+        return $this;
+    }
+
+    public function searchEmail($email)
+    {
+        $this->query->whereHas('user', function ($query) use ($email) {
+            $query->where("email", "LIKE", "%" . $email . "%");
+        });
+        return $this;
+    }
+
+    public function searchStatus($status)
+    {
+        if ($status) {
+            $this->query->where("status", $status);
+        }
+        return $this;
+    }
+
+    public function paginageCategorey($status = null)
+    {
+        return $this->query->paginate();
+    }
+
 
 }
