@@ -3,27 +3,24 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use App\Models\AttributeSite\Comment;
-use App\Repository\Manager\articleRepo;
-use App\Repository\Manager\categoryRepo;
+use App\Repository\Manager\newRepo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
-class LandingArticleController extends Controller
+class NewLandingController extends Controller
 {
-    public function __construct(public articleRepo $articleRepo){}
+    public function __construct(public newRepo $newRepo){}
 
     public function index()
     {
-        return $this->articleRepo->landingArticleSuccess();
+        return $this->newRepo->landingArticleSuccess();
     }
 
     public function single($slug)
     {
-        $articleSingle = $this->articleRepo->frontSingleArticle($slug);
+        $newSingle = $this->newRepo->frontSingleArticle($slug);
 //        Cache::add('__Articles__Single__Page__route__' . $articlesRepo->title, $articlesRepo,
 //            now()->addMinutes(300));
-        return response()->json(['data' => $articleSingle], 200);
+        return response()->json(['data' => $newSingle], 200);
     }
 
     public function categoryArticle($category, categoryRepo $categoryRepo)

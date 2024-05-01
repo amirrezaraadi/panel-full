@@ -31,4 +31,26 @@ class ImageService
           return true;
 
     }
+
+    public static function generate_new($file)
+    {
+        $file_name = Str::random(15) . '-' . $file->getClientOriginalName();
+        $file->storeAs('/news', $file_name, 'news');
+        return $file_name;
+    }
+
+    public static function deleteImage_new($file)
+    {
+        $deleteImage =  Image::query()->where(  'imageable_type' , $file)
+            ->where( 'imageable_id'  ,  $file->id )->first() ;
+        dd($deleteImage);
+        if( ! is_null( $deleteImage  )) {
+            if ( File::exists(public_path('images/news/' .  $deleteImage->url ))) {
+                File::delete(public_path('images/news/' . $deleteImage->url ));
+            }
+            $deleteImage->delete();
+        }
+        return true;
+
+    }
 }

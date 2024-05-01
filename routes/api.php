@@ -39,6 +39,7 @@ Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(f
     Route::apiResource('category', \App\Http\Controllers\Manager\CategoryController::class);
     Route::apiResource('tags', \App\Http\Controllers\Manager\TagController::class);
     Route::apiResource('articles', \App\Http\Controllers\Manager\ArticleController::class);
+    Route::apiResource('news', \App\Http\Controllers\Manager\NewsController::class);
     Route::apiResource('likes', \App\Http\Controllers\Attribute\LikeController::class);
     Route::apiResource('bookmarks', \App\Http\Controllers\Attribute\BookmarkController::class);
     Route::apiResource('comments' , \App\Http\Controllers\Attribute\CommentController::class);
@@ -83,13 +84,24 @@ Route::middleware(['auth:sanctum'])->prefix('status')->name('status')->group(fun
     Route::put('article/pending/{article}', [\App\Http\Controllers\Manager\ArticleController::class, 'pending'])
         ->name('pending');
     /* end  article */
-
+    /* start news */
+    Route::put('news/success/{news}', [\App\Http\Controllers\Manager\NewsController::class, 'success'])
+        ->name('success');
+    Route::put('news/reject/{news}', [\App\Http\Controllers\Manager\NewsController::class, 'reject'])
+        ->name('reject');
+    Route::put('news/pending/{news}', [\App\Http\Controllers\Manager\NewsController::class, 'pending'])
+        ->name('pending');
+    /* end  news */
 });
 // start front
 Route::prefix('/front')->name('front')->group(function () {
     Route::get('/landing_articles', [\App\Http\Controllers\Front\LandingArticleController::class, 'index'])
         ->name('articles');
     Route::get('single_article/{slug}', [\App\Http\Controllers\Front\LandingArticleController::class, 'single'])
+        ->name('single');
+    Route::get('/landing_news', [\App\Http\Controllers\Front\NewLandingController::class, 'index'])
+        ->name('articles');
+    Route::get('single_news/{slug}', [\App\Http\Controllers\Front\NewLandingController::class, 'single'])
         ->name('single');
 });
 

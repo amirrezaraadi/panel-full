@@ -25,7 +25,13 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
-
+        'news' => [
+            'driver' => 'local',
+            'root' => public_path('/images'),
+            'url' => env('APP_URL').'/public',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
 
         's3' => [
             'driver' => 's3',
