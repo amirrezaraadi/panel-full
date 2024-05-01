@@ -35,7 +35,7 @@ class articleRepo
 
     public function getFindId($articleId)
     {
-        return $this->article->where('id' , $articleId)->with(['tags' => function ($q) {
+        return $this->article->where('id', $articleId)->with(['tags' => function ($q) {
             $q->select(['tags.id', 'tags.title'])->get();
         }, 'categories' => function ($q) {
             $q->select(['categories.id', 'categories.title'])->get();
@@ -68,9 +68,9 @@ class articleRepo
             ]);
     }
 
-    public function status($id , $status): int
+    public function status($id, $status): int
     {
-        return $this->article->where('id' , $id)
+        return $this->article->where('id', $id)
             ->update(['status' => $status]);
     }
 
@@ -88,16 +88,48 @@ class articleRepo
         return Article::query()->where('status',
             Article::STATUS_SUCCESS)
             ->with(['author' => function ($q) {
-                $q->select(['id' , 'name' , 'profile']);
+                $q->select(['id', 'name', 'profile']);
             }])
             ->orderByDesc('created_at')->paginate(1);
     }
 
 
-
-
     public function getBySlug(string $articleId)
     {
         return Article::query()->where('slug', $articleId)->first();
+    }
+
+    public function searchTitle($title)
+    {
+        $this->article->where("title", "like", "%" . $title . "%");
+        return $this;
+    }
+
+    public function searchEmail($email)
+    {
+        $this->article->whereHas("author", function ($q) use ($email) {
+            return $q->where("email", "like", "%" . $email . "%");
+        });
+        return $this;
+    }
+
+    public function searchName($name)
+    {
+        $this->article->whereHas('author', function ($query) use ($name) {
+            return $query->where("email", "LIKE", "%" . $name . "%");
+        });
+        return $this;
+    }
+
+    public function searchStatus($status)
+    {
+        if ($status)
+            $this->article->where("status", $status);
+        return $this;
+    }
+
+    public function paginateParents($status = null)
+    {
+        return $this->article->paginate();
     }
 }

@@ -25,7 +25,19 @@ class ArticleController extends Controller
 
     public function index()
     {
-        return $this->articleRepo->index();
+        $articles = $this->articleRepo
+            ->searchTitle(request("title"))
+            ->searchEmail(request("email"))
+            ->searchName(request("name"))
+            ->searchStatus(request("status"));
+//        if (!auth()->user()->hasAnyPermission(Permission::PERMISSION_MANAGE_COMMENTS,
+//            Permission::PERMISSION_MANAGE)) {
+//            $comments->query->whereHasMorph("commentable", [Article::class], function ($query) {
+//                return $query->where("author_id", auth()->id());
+//            })->where("status", Comment::STATUS_APPROVED);
+//        }
+
+        return  $articles->paginateParents();
     }
 
     public function store(StoreArticleRequest $request): \Illuminate\Http\JsonResponse

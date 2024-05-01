@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\AttributeSite\Comment;
+use App\Models\Manager\Article;
 use App\Notifications\Auth\ForegetPasswordNotification;
 use App\Notifications\Auth\successChangePasswordNotification;
 use Artesaos\SEOTools\Facades\SEOTools;
@@ -71,6 +72,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function articles()
+    {
+        return $this->hasMany(Article::class);
     }
 
 }
