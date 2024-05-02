@@ -62,7 +62,12 @@ class LatestNews extends Model
     protected $appends = ['news_image'];
     public function getNewsImageAttribute(): string
     {
-        return asset('images/news/' . $this->image->url ?? null);
+        if($this->image) {
+            return  asset('images/news/' . $this->image->url) ;
+        }
+        return  'not image ' ;
+
+//        return is_null(! $this->image ) : asset('images/news/' . $this->image->url) ? 'null' ;
     }
 
     public function reporter(): BelongsTo

@@ -147,7 +147,9 @@ class articleRepo
             }, 'comments' => function ($query) {
                 return $query
                     ->where('status', Comment::STATUS_APPROVED)
-                    ->with(['replies']);
+                    ->with(['replies'])
+                    ->orderByDesc('created_at')
+                    ;
             }])->loadCount('comments', 'liked', 'bookmarks')->append(['article_image']);
         return $articlesRepo->makeHidden(['image', 'summary', 'status', 'author_id', 'updated_at']);
     }

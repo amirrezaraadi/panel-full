@@ -27,14 +27,15 @@ class commentRepo
         }
         return Comment::query()->create([
             "user_id" => auth()->id(),
-            "status" => (auth()->user()->can(Permission::PERMISSION_MANAGE_COMMENTS) ||
-                auth()->user()->can(Permission::PERMISSION_ADMIN))
-                ?
-                Comment::STATUS_APPROVED
-                :
-                Comment::STATUS_NEW,
+//            "status" => (auth()->user()->can(Permission::PERMISSION_MANAGE_COMMENTS) ||
+//                auth()->user()->can(Permission::PERMISSION_ADMIN))
+//                ?
+//                Comment::STATUS_APPROVED
+//                :
+//                Comment::STATUS_NEW,
             "comment_id" => array_key_exists("comment_id", $data) ? $data["comment_id"] : null,
             "body" => $data["comment"],
+            "status" =>  Comment::STATUS_APPROVED ,
             "commentable_id" => $commentable->id,
             "commentable_type" => get_class($commentable),
         ]);
