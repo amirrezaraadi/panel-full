@@ -154,6 +154,8 @@ class newRepo
 
     public function landing()
     {
-        return $this->new->orderByDesc('created_at')->paginate(12);
+        return $this->new
+        ->where('status' , LatestNews::STATUS_SUCCESS )
+        ->orderByDesc('created_at')->paginate(12);
     }
 }

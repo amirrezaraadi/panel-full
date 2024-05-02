@@ -49,4 +49,11 @@ class featureRepo
     {
         return Feature::query()->where('id' , $id)->update(['status' => $status]);
     }
+
+    public function landing()
+    {
+        return Feature::query()
+        ->where('status' , Feature::STATUS_SUCCESS)
+        ->orderByDesc('created_at')->get();
+    }
 }

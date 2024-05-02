@@ -149,11 +149,13 @@ class articleRepo
                     ->where('status', Comment::STATUS_APPROVED)
                     ->with(['replies']);
             }])->loadCount('comments', 'liked', 'bookmarks')->append(['article_image']);
-       return  $articlesRepo->makeHidden(['image', 'summary', 'status', 'author_id', 'updated_at']);
+        return $articlesRepo->makeHidden(['image', 'summary', 'status', 'author_id', 'updated_at']);
     }
 
     public function landing()
     {
-        return $this->article->orderByDesc('created_at')->paginate(12);
+        return $this->article
+            ->where('status', Article::STATUS_SUCCESS)
+            ->orderByDesc('created_at')->paginate(12);
     }
 }
