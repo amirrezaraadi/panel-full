@@ -138,6 +138,7 @@ class articleRepo
     {
         $articlesRepo = $this->getBySlug($slug);
         $articlesRepo->load([
+
             'author' => function ($query) {
                 return $query->select(['users.id', 'users.name', 'users.profile', 'users.email']);
             }, 'tags' => function ($query) {
