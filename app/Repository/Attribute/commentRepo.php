@@ -3,6 +3,7 @@
 namespace App\Repository\Attribute;
 
 use App\Models\AttributeSite\Comment;
+use App\Models\Manager\Article;
 use App\Models\RolePermission\Permission;
 
 class commentRepo
@@ -21,6 +22,9 @@ class commentRepo
 
     public function create($data)
     {
+        if(array_key_exists("article", $data)) {
+            $commentable = Article::query()->findOrFail($data['article']);
+        }
         return Comment::query()->create([
             "user_id" => auth()->id(),
             "status" => (auth()->user()->can(Permission::PERMISSION_MANAGE_COMMENTS) ||
@@ -30,9 +34,9 @@ class commentRepo
                 :
                 Comment::STATUS_NEW,
             "comment_id" => array_key_exists("comment_id", $data) ? $data["comment_id"] : null,
-            "body" => $data["body"],
-            "commentable_id" => $data["commentable_id"],
-            "commentable_type" => $data["commentable_type"],
+            "body" => $data["comment"],
+            "commentable_id" => $commentable->id,
+            "commentable_type" => get_class($commentable),
         ]);
     }
 
