@@ -53,6 +53,7 @@ Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(f
         Route::get('permission' , [\App\Http\Controllers\RolePermission\PermissionController::class , 'index'])
             ->name('permission.index');
     })  ;
+    ///amir seraj
 });
 // end panel manager
 // status
