@@ -23,9 +23,8 @@ class Comment extends Model
     protected $hidden = [
         'deleted_at',
         'updated_at',
-        'created_at',
         'comment_id',
-        'user_id',
+//        'user_id',
         'commentable_type',
         'commentable_id'
     ];
@@ -37,7 +36,7 @@ class Comment extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class , 'user_id');
     }
 
     public function comment()

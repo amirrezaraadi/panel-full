@@ -4,47 +4,27 @@ namespace App\Http\Controllers\RolePermission;
 
 use App\Http\Controllers\Controller;
 use App\Models\RolePermission\Role;
+use App\Repository\RolePermission\roleRepo;
+use App\Service\JsonResponse;
 use Illuminate\Http\Request;
+use Psy\Util\Json;
 
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(public roleRepo $roleRepo)
+    {
+    }
+
     public function index()
     {
-        //
+        return $this->roleRepo->index();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $this->roleRepo->createRole($request->all());
+        return JsonResponse::SuccessResponse('create role', 'success');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Role $role)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Role $role)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Role $role)
-    {
-        //
-    }
 }

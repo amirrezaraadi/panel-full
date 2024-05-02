@@ -4,9 +4,11 @@ use App\Http\Controllers\Seo\SeoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+// start seo
 Route::prefix('seo')->name('seo')->group(function () {
     Route::get('/sitemap', [SeoController::class, 'sitemap'])->name('sitemap');
 });
+// end seo
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -32,7 +34,6 @@ Route::prefix('auth')->name('auth')->group(function () {
         ->name('change-password');
 });
 // end authentication
-
 // start panel manager
 Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(function () {
     Route::apiResource('users', \App\Http\Controllers\Manager\UserContoller::class);
@@ -43,10 +44,17 @@ Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(f
     Route::apiResource('features', \App\Http\Controllers\Manager\FeatureController::class);
     Route::apiResource('likes', \App\Http\Controllers\Attribute\LikeController::class);
     Route::apiResource('bookmarks', \App\Http\Controllers\Attribute\BookmarkController::class);
-    Route::apiResource('comments' , \App\Http\Controllers\Attribute\CommentController::class);
+    Route::apiResource('comments', \App\Http\Controllers\Attribute\CommentController::class);
+    Route::prefix('role_permission')->name('role_permission')->group(function () {
+        Route::get('roles' , [\App\Http\Controllers\RolePermission\RoleController::class , 'index'])
+        ->name('roles.index');
+        Route::post('roles' , [\App\Http\Controllers\RolePermission\RoleController::class , 'store'])
+            ->name('roles.store');
+        Route::get('permission' , [\App\Http\Controllers\RolePermission\PermissionController::class , 'index'])
+            ->name('permission.index');
+    })  ;
 });
 // end panel manager
-
 // status
 Route::middleware(['auth:sanctum'])->prefix('status')->name('status')->group(function () {
     // * users * ///
@@ -102,9 +110,10 @@ Route::middleware(['auth:sanctum'])->prefix('status')->name('status')->group(fun
         ->name('pending');
     /* end  news */
 });
+// end status
 // start front
 Route::prefix('/front')->name('front')->group(function () {
-    Route::get('/' , \App\Http\Controllers\LandingController::class)->name('landing');
+    Route::get('/', \App\Http\Controllers\LandingController::class)->name('landing');
     Route::get('/landing_articles', [\App\Http\Controllers\Front\LandingArticleController::class, 'index'])
         ->name('articles');
     Route::get('single_article/{slug}', [\App\Http\Controllers\Front\LandingArticleController::class, 'single'])
@@ -114,4 +123,4 @@ Route::prefix('/front')->name('front')->group(function () {
     Route::get('single_news/{slug}', [\App\Http\Controllers\Front\NewLandingController::class, 'single'])
         ->name('single');
 });
-
+// end front
