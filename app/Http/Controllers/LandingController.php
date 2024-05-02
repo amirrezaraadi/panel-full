@@ -12,6 +12,5 @@ class LandingController extends Controller
     {
         $news = $newRepo->landing();
         $articles = $articleRepo->landing();
-
     }
 }
