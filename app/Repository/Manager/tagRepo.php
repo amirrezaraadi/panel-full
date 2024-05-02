@@ -105,13 +105,13 @@ class tagRepo
 //            ]);
 //        }
 //    }
-    public function morphTags($tags, $article)
+    public function morphTags($tags, $model)
     {
         $taggables = [];
         foreach ($tags as $tag) {
             $taggables[] = [
-                'taggable_id' => $article->id,
-                'taggable_type' => get_class($article),
+                'taggable_id' => $model->id,
+                'taggable_type' => get_class($model),
                 'tag_id' => $tag,
                 'user_id' => auth()->id()
             ];
@@ -123,7 +123,7 @@ class tagRepo
     {
         foreach ($id->tags()->get() as $tag) {
             DB::table('taggables')->where('taggable_id', $id->id)
-                ->where('taggable_type', $id)->delete();
+                ->where('taggable_type', get_class($id))->delete();
         }
     }
 

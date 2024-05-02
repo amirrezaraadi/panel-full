@@ -20,8 +20,8 @@ return new class extends Migration
             $table->text('summary')->nullable();
             $table->integer('min_read')->nullable();
             $table->string('short_link')->nullable();
-            $table->enum('status' , \App\Models\Front\News::$status)
-                ->default(\App\Models\Front\News::STATUS_PENDING);
+            $table->enum('status' , \App\Models\Manager\LatestNews::$status)
+                ->default(\App\Models\Manager\LatestNews::STATUS_PENDING);
             $table->foreignId('reporter_id')->constrained('users')->cascadeOnUpdate();// خبرنگار
             $table->softDeletes();
             $table->timestamps();

@@ -4,12 +4,8 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreArticleRequest;
-use App\Http\Requests\StoreNewsRequest;
 use App\Http\Requests\UpdateArticleRequest;
-use App\Http\Requests\UpdateNewsRequest;
-use App\Models\Front\News;
 use App\Models\Manager\Article;
-use App\Repository\Manager\articleRepo;
 use App\Repository\Manager\categoryRepo;
 use App\Repository\Manager\newRepo;
 use App\Repository\Manager\tagRepo;
@@ -19,7 +15,7 @@ use App\Service\JsonResponse;
 
 class NewsController extends Controller
 {
-    public function __construct(public newRepo $newRepo,
+    public function __construct(public newRepo      $newRepo,
                                 public tagRepo      $tagRepo,
                                 public categoryRepo $categoryRepo,
                                 public mediaRepo    $mediaRepo
@@ -41,7 +37,7 @@ class NewsController extends Controller
 //            })->where("status", Comment::STATUS_APPROVED);
 //        }
 
-        return  $news->paginateParents();
+        return $news->paginateParents();
     }
 
     public function store(StoreArticleRequest $request): \Illuminate\Http\JsonResponse
@@ -72,9 +68,9 @@ class NewsController extends Controller
     public function update(UpdateArticleRequest $request, $id): \Illuminate\Http\JsonResponse
     {
         $news = $this->newRepo->getFindCategory($id);
-        $article = $this->newRepo->update($request, $news->id);
+        $new = $this->newRepo->update($request, $news->id);
         if ($request->image) {
-            $deleteImage = ImageService::deleteImage_new($news);
+            $deleteImage = ImageService::deleteImageNews($news);
             $path = ImageService::generate_new($request->file('image'));
             $media = $this->mediaRepo->createFile($path, $news);
         }
@@ -92,13 +88,15 @@ class NewsController extends Controller
     }
 
 
-    public function destroy($article): \Illuminate\Http\JsonResponse
+    public function destroy($new): \Illuminate\Http\JsonResponse
     {
-        $id = $this->newRepo->getFindCategory($article);
-        $deleteImage = $id->image()->delete();
+        $id = $this->newRepo->getFindCategory($new);
+//        if (!is_null($id->image)) {
+//            $deleteImage = $id->image()->delete();
+//        }
         $deleteCategory = $this->categoryRepo->deleteMorphCategory($id);
         $deleteMorphTag = $this->tagRepo->deleteMorphTag($id);
-        $delete = $this->newRepo->delete($article);
+        $delete = $this->newRepo->delete($new);
         return JsonResponse::SuccessResponse('delete Article OK', 'success');
     }
 

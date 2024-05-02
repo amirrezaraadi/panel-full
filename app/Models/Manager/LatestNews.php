@@ -1,25 +1,24 @@
 <?php
 
-namespace App\Models\Front;
+namespace App\Models\Manager;
 
+use App\Models\Media\Image;
 use App\Models\User;
 use App\Traits\HasBookMark;
-use App\Traits\HasCategory;
 use App\Traits\HasComment;
-use App\Traits\HasImage;
 use App\Traits\HasLike;
-use App\Traits\HasTag;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class News extends Model
+class LatestNews extends Model
 {
     use HasFactory, SoftDeletes, Sluggable,
-        HasImage, HasCategory, HasTag,
         HasBookMark, HasLike, HasComment;
 
     protected $fillable = [
@@ -32,12 +31,14 @@ class News extends Model
         'status',
         'reporter_id',
     ];
+    protected $table = 'news';
+
     protected $hidden = ['image'];
 
     public static function booted(): void
     {
-        static::saving(function ($article) {
-            $article->short_link = Str::random(15);
+        static::saving(function ($new) {
+            $new->short_link = Str::random(15);
         });
     }
 
@@ -59,7 +60,7 @@ class News extends Model
         ];
     }
     protected $appends = ['news_image'];
-    public function getArticleImageAttribute(): string
+    public function getNewsImageAttribute(): string
     {
         return asset('images/news/' . $this->image->url ?? null);
     }
@@ -72,5 +73,16 @@ class News extends Model
     {
         return route('news/', $this->id . '-' . $this->slug);
     }
-
+    public function image(): MorphOne
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
+    public function categories(): MorphToMany
+    {
+        return $this->morphToMany(Category::class, 'categorizable');
+    }
+    public function tags(): MorphToMany
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
 }

@@ -3,7 +3,7 @@
 namespace App\Repository\Manager;
 
 use App\Models\AttributeSite\Comment;
-use App\Models\Front\News;
+use App\Models\Manager\LatestNews;
 use App\Service\ContentText;
 use App\Service\sluggable;
 
@@ -13,7 +13,7 @@ class newRepo
 
     public function __construct()
     {
-        $this->new = News::query();
+        $this->new = LatestNews::query();
     }
 
     public function index()
@@ -24,9 +24,9 @@ class newRepo
     public function create($data)
     {
         $wordCount = ContentText::minRead($data->get('content'));
-        return News::query()->create([
+        return LatestNews::query()->create([
             'title' => $data['title'],
-            'slug' => sluggable::generate(News::class, $data['title']),
+            'slug' => sluggable::generate(LatestNews::class, $data['title']),
             'content' => $data['content'],
             'summary' => $data['summary'],
             'min_read' => $wordCount,
@@ -40,7 +40,7 @@ class newRepo
             $q->select(['tags.id', 'tags.title'])->get();
         }, 'categories' => function ($q) {
             $q->select(['categories.id', 'categories.title'])->get();
-        }])->first()->append(['article_image']);
+        }])->first()->append(['news_image']);
     }
 
     public function getFindCategory($id)
@@ -57,11 +57,11 @@ class newRepo
     public function update($data, $new): int
     {
         $wordCount = ContentText::minRead($data->get('content'));
-        return News::query()
+        return LatestNews::query()
             ->where('id', $new)
             ->update([
                 'title' => $data['title'],
-                'slug' => sluggable::generate(News::class, $data['title']),
+                'slug' => sluggable::generate(LatestNews::class, $data['title']),
                 'content' => $data['content'],
                 'summary' => $data['summary'],
                 'min_read' => $wordCount,
@@ -77,8 +77,8 @@ class newRepo
 
 //    public function landingNewsSuccess()
 //    {
-//        return News::query()->where('status',
-//            News::STATUS_SUCCESS)
+//        return LatestNews::query()->where('status',
+//            LatestNews::STATUS_SUCCESS)
 //            ->with(['reporter' => function ($q) {
 //                $q->select(['id' , 'name' , 'profile']);
 //            }])
@@ -86,8 +86,8 @@ class newRepo
 //    }
     public function landingNewsSuccess()
     {
-        return News::query()->where('status',
-            News::STATUS_SUCCESS)
+        return LatestNews::query()->where('status',
+            LatestNews::STATUS_SUCCESS)
             ->with(['reporter' => function ($q) {
                 $q->select(['id', 'name', 'profile']);
             }])
@@ -97,7 +97,7 @@ class newRepo
 
     public function getBySlug(string $newId)
     {
-        return News::query()->where('slug', $newId)->first();
+        return LatestNews::query()->where('slug', $newId)->first();
     }
 
     public function searchTitle($title)

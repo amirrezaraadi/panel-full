@@ -5,7 +5,7 @@ namespace Database\Factories\Front;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Front\News>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Manager\LatestNews>
  */
 class NewsFactory extends Factory
 {

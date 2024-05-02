@@ -16,12 +16,12 @@ class mediaRepo
         return $this->query->paginate();
     }
 
-    public function createFile($path , $article)
+    public function createFile($path , $model)
     {
         return $this->query->create([
             'url' => $path,
-            'imageable_type' => get_class($article),
-            'imageable_id' => $article->id,
+            'imageable_type' => get_class($model),
+            'imageable_id' => $model->id,
             'user_id' => auth()->id(),
         ]);
     }

@@ -96,9 +96,10 @@ class categoryRepo
 
     public function deleteMorphCategory($id)
     {
+//        dd($id->categories()->get());
         foreach ($id->categories()->get() as $category) {
             DB::table('categorizables')->where('categorizable_id', $id->id)
-                ->where('categorizable_type', $id)->delete();
+                ->where('categorizable_type', get_class($id))->delete();
         }
     }
 
