@@ -5,6 +5,9 @@
 /public/storage
 /public/images/*
 /storage/*.key
+/storage/framework/*
+/storage/framework/cache
+/storage/framework/sessions
 /vendor
 .env.backup
 .env.production
