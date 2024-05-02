@@ -40,6 +40,7 @@ Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(f
     Route::apiResource('tags', \App\Http\Controllers\Manager\TagController::class);
     Route::apiResource('articles', \App\Http\Controllers\Manager\ArticleController::class);
     Route::apiResource('news', \App\Http\Controllers\Manager\NewsController::class);
+    Route::apiResource('features', \App\Http\Controllers\Manager\FeatureController::class);
     Route::apiResource('likes', \App\Http\Controllers\Attribute\LikeController::class);
     Route::apiResource('bookmarks', \App\Http\Controllers\Attribute\BookmarkController::class);
     Route::apiResource('comments' , \App\Http\Controllers\Attribute\CommentController::class);
@@ -68,6 +69,14 @@ Route::middleware(['auth:sanctum'])->prefix('status')->name('status')->group(fun
     Route::put('category/pending/{category}', [\App\Http\Controllers\Manager\CategoryController::class, 'pending'])
         ->name('pending');
     /* end category */
+    /* start feature */
+    Route::put('feature/success/{feature}', [\App\Http\Controllers\Manager\FeatureController::class, 'success'])
+        ->name('success');
+    Route::put('feature/reject/{feature}', [\App\Http\Controllers\Manager\FeatureController::class, 'reject'])
+        ->name('reject');
+    Route::put('feature/pending/{feature}', [\App\Http\Controllers\Manager\FeatureController::class, 'pending'])
+        ->name('pending');
+    /* end feature */
     /* start tags */
     Route::put('tag/success/{tag}', [\App\Http\Controllers\Manager\TagController::class, 'success'])
         ->name('success');

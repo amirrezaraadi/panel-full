@@ -11,7 +11,6 @@ class morph
 
     public static function morph($request )
     {
-        dd($request);
         $type = $request->input('type');
         $id = $request->input('id');
 
