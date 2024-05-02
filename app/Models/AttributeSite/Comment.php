@@ -28,7 +28,6 @@ class Comment extends Model
         'commentable_type',
         'commentable_id'
     ];
-
     public function commentable()
     {
         return $this->morphTo();
