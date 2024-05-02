@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Repository\Manager\categoryRepo;
 use App\Repository\Manager\newRepo;
-use Illuminate\Http\Request;
 
 class NewLandingController extends Controller
 {
@@ -17,7 +17,7 @@ class NewLandingController extends Controller
 
     public function single($slug)
     {
-        $newSingle = $this->newRepo->frontSingleArticle($slug);
+        $newSingle = $this->newRepo->frontSingleNews($slug);
 //        Cache::add('__Articles__Single__Page__route__' . $articlesRepo->title, $articlesRepo,
 //            now()->addMinutes(300));
         return response()->json(['data' => $newSingle], 200);
