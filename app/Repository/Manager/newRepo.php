@@ -151,4 +151,9 @@ class newRepo
             }])->loadCount('comments', 'liked', 'bookmarks')->append(['article_image']);
        return  $newsRepo->makeHidden(['image', 'summary', 'status', 'reporter_id', 'updated_at']);
     }
+
+    public function landing()
+    {
+        return $this->new->orderByDesc('created_at')->paginate(12);
+    }
 }

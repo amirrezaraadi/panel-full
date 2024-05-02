@@ -151,4 +151,9 @@ class articleRepo
             }])->loadCount('comments', 'liked', 'bookmarks')->append(['article_image']);
        return  $articlesRepo->makeHidden(['image', 'summary', 'status', 'author_id', 'updated_at']);
     }
+
+    public function landing()
+    {
+        return $this->article->orderByDesc('created_at')->paginate(12);
+    }
 }
