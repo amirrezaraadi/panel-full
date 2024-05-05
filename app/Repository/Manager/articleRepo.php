@@ -147,7 +147,8 @@ class articleRepo
             }, 'comments' => function ($query) {
                 return $query
                     ->where('status', Comment::STATUS_APPROVED)
-                    ->with(['replies' , 'user' ])
+                    ->where('comment_id' , null)
+                    ->with(['replies.user' , 'user' ])
                     ->orderByDesc('created_at')
                     ;
             }])->loadCount('comments', 'liked', 'bookmarks')->append(['article_image']);

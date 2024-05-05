@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Cache;
 
 class LandingArticleController extends Controller
 {
-    public function __construct(public articleRepo $articleRepo){}
+    public function __construct(public articleRepo $articleRepo)
+    {
+    }
 
     public function index()
     {
