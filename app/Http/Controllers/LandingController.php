@@ -9,11 +9,14 @@ use Illuminate\Http\Request;
 
 class LandingController extends Controller
 {
-    public function __invoke(Request $request , newRepo $newRepo , articleRepo $articleRepo , featureRepo $featureRepo)
+    public function __invoke(Request $request ,
+                             newRepo $newRepo ,
+                             articleRepo $articleRepo ,
+                             featureRepo $featureRepo )
     {
         $news = $newRepo->landing();
         $articles = $articleRepo->landing();
         $features = $featureRepo->landing();
-        return [$articles , $news , $features];
+        return response()->json(['news' => $news , 'articles' => $articles , 'features' => $features]);
     }
 }
