@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Events\Views\VisitEvent;
 use App\Http\Controllers\Controller;
 use App\Repository\Manager\categoryRepo;
 use App\Repository\Manager\newRepo;
@@ -18,6 +19,7 @@ class NewLandingController extends Controller
     public function single($slug)
     {
         $newSingle = $this->newRepo->frontSingleNews($slug);
+        event(new VisitEvent($newSingle));
 //        Cache::add('__Articles__Single__Page__route__' . $articlesRepo->title, $articlesRepo,
 //            now()->addMinutes(300));
         return response()->json(['data' => $newSingle], 200);

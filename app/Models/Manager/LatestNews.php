@@ -65,13 +65,13 @@ class LatestNews extends Model
             ]
         ];
     }
-    protected $appends = ['news_image'];
-    public function getNewsImageAttribute(): string
+    protected $appends = ['photo'];
+    public function getPhotoAttribute()
     {
         if($this->image) {
             return  asset('images/news/' . $this->image->url) ;
         }
-        return  'not image ' ;
+        return  null ;
 
 //        return is_null(! $this->image ) : asset('images/news/' . $this->image->url) ? 'null' ;
     }

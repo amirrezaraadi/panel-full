@@ -64,8 +64,8 @@ class Article extends Model
             ]
         ];
     }
-    protected $appends = ['article_image'];
-    public function getArticleImageAttribute(): string
+    protected $appends = ['photo'];
+    public function getPhotoAttribute()
     {
         return asset('images/articles/' . $this->image->url ?? null);
     }

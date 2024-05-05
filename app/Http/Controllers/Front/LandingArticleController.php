@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Events\Views\VisitEvent;
 use App\Http\Controllers\Controller;
 use App\Models\AttributeSite\Comment;
 use App\Repository\Manager\articleRepo;
@@ -22,7 +23,8 @@ class LandingArticleController extends Controller
 
     public function single($slug)
     {
-        $articleSingle = $this->articleRepo->frontSingleArticle($slug);
+        $articleSingle = $this->articleRepo->frontSingleArticle($slug) ;
+//        event(new VisitEvent($articleSingle));
 //        Cache::add('__Articles__Single__Page__route__' . $articlesRepo->title, $articlesRepo,
 //            now()->addMinutes(300));
         return response()->json(['data' => $articleSingle], 200);

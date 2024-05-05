@@ -148,7 +148,7 @@ class newRepo
                 return $query
                     ->where('status', Comment::STATUS_APPROVED)
                     ->with(['replies']);
-            }])->loadCount('comments', 'liked', 'bookmarks')->append(['article_image']);
+            }])->loadCount('comments', 'liked', 'bookmarks')->append(['photo']);
        return  $newsRepo->makeHidden(['image', 'summary', 'status', 'reporter_id', 'updated_at']);
     }
 

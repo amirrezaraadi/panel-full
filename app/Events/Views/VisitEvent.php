@@ -15,9 +15,23 @@ class VisitEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    /**
+     * @var $model
+     */
+    private  $model ;
+
+    /**
+     * @param Model $model
+     */
     public function __construct(Model $model)
     {
-        dd($model , 'dasdas');
+        dd(client_ip());
+        $this->model = $model;
+    }
+
+    public function getModel() :Model
+    {
+        return $this->model ;
     }
 
     public function broadcastOn(): array
