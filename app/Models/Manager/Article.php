@@ -69,7 +69,6 @@ class Article extends Model
     {
         return asset('images/articles/' . $this->image->url ?? null);
     }
-
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
