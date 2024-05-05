@@ -159,6 +159,6 @@ class articleRepo
     {
         return $this->article
             ->where('status', Article::STATUS_SUCCESS)
-            ->orderByDesc('created_at')->paginate(12);
+            ->get();
     }
 }

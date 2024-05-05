@@ -156,6 +156,6 @@ class newRepo
     {
         return $this->new
         ->where('status' , LatestNews::STATUS_SUCCESS )
-        ->orderByDesc('created_at')->paginate(12);
+        ->get();
     }
 }

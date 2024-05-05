@@ -32,7 +32,13 @@ class Article extends Model
         'status',
         'author_id',
     ];
-    protected $hidden = ['image'];
+    protected $hidden = [
+        'image' ,
+        'deleted_at' ,
+        'updated_at' ,
+        'status' ,
+        'author_id' ,
+        ];
 
     public static function booted(): void
     {

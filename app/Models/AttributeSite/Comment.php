@@ -5,6 +5,9 @@ namespace App\Models\AttributeSite;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Comment extends Model
 {
@@ -15,7 +18,7 @@ class Comment extends Model
     const STATUS_APPROVED = "approved";
     const STATUS_REJECTED = "rejected";
 
-    static $statues = [
+    static array $statues = [
         self::STATUS_REJECTED,
         self::STATUS_APPROVED,
         self::STATUS_NEW
@@ -28,38 +31,29 @@ class Comment extends Model
         'commentable_type',
         'commentable_id'
     ];
-    public function commentable()
+
+    public function commentable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class , 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function comment()
+    public function comment(): BelongsTo
     {
         return $this->belongsTo(Comment::class);
     }
 
-    public function replies()
+    public function replies(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
-    public function notApprovedComments()
+    public function notApprovedComments(): HasMany
     {
         return $this->hasMany(Comment::class)->where("status", self::STATUS_NEW);
     }
-
-    public function getStatusCssClass()
-    {
-        if ($this->status == self::STATUS_APPROVED) return "text-success";
-        elseif ($this->status == self::STATUS_REJECTED) return "text-error";
-
-        return "text-warning";
-    }
-
-
 }

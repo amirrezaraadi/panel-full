@@ -33,7 +33,6 @@ class LatestNews extends Model
     ];
     protected $table = 'news';
 
-    protected $hidden = ['image'];
 
     public static function booted(): void
     {
@@ -49,6 +48,13 @@ class LatestNews extends Model
         self::STATUS_PENDING,
         self::STATUS_REJECT,
         self::STATUS_SUCCESS
+    ];
+    protected $hidden = [
+        'image' ,
+        'deleted_at' ,
+        'updated_at' ,
+        'status' ,
+        'reporter_id' ,
     ];
 
     public function sluggable(): array

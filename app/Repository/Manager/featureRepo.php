@@ -54,6 +54,6 @@ class featureRepo
     {
         return Feature::query()
         ->where('status' , Feature::STATUS_SUCCESS)
-        ->orderByDesc('created_at')->get();
+        ->get();
     }
 }

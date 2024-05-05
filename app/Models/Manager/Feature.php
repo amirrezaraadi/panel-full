@@ -20,6 +20,14 @@ class Feature extends Model
         'status' ,
         'user_id',
     ];
+    protected $hidden = [
+        "updated_at" ,
+        "created_at" ,
+        "deleted_at" ,
+        "user_id" ,
+        "status" ,
+        "slug" ,
+    ];
 
     public function user()
     {

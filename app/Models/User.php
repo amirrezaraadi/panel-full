@@ -6,6 +6,7 @@ use App\Models\AttributeSite\Comment;
 use App\Models\Manager\Article;
 use App\Notifications\Auth\ForegetPasswordNotification;
 use App\Notifications\Auth\successChangePasswordNotification;
+use App\Traits\HasImage;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +21,12 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles , SoftDeletes;
+    use HasApiTokens,
+        HasFactory,
+        Notifiable,
+        HasRoles ,
+        HasImage,
+        SoftDeletes;
 
     protected $fillable = [
         'name',
