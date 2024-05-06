@@ -7,16 +7,16 @@ use App\Repository\Manager\articleRepo;
 
 class morph
 {
-    public function __construct(public articleRepo $articleRepo){}
 
-    public static function morph($request )
+    public static function morph($request)
     {
+        $articleRepo = new articleRepo();
         $type = $request->input('type');
         $id = $request->input('id');
 
         switch ($type) {
             case 'article':
-                $morphed  = $articleRepo->getFindCategory($id);
+                $morphed = $articleRepo->getFindCategory($id);
                 break;
 //            case 'product':
 //                $morphed = $productRepo->getFindCategory($id);
@@ -25,6 +25,6 @@ class morph
                 return JsonResponse::NotFoundResponse('not model', 'error');
         }
 
-        return $morphed ;
+        return $morphed;
     }
 }

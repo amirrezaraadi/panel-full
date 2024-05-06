@@ -37,7 +37,7 @@ class ArticleController extends Controller
 //            })->where("status", Comment::STATUS_APPROVED);
 //        }
 
-        return  $articles->paginateParents();
+        return  $articles->index();
     }
 
     public function store(StoreArticleRequest $request): \Illuminate\Http\JsonResponse

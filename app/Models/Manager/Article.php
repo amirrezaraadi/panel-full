@@ -33,12 +33,11 @@ class Article extends Model
         'author_id',
     ];
     protected $hidden = [
-        'image' ,
-        'deleted_at' ,
-        'updated_at' ,
-        'status' ,
-        'author_id' ,
-        ];
+        'image',
+        'deleted_at',
+        'updated_at',
+        'author_id',
+    ];
 
     public static function booted(): void
     {
@@ -64,15 +63,19 @@ class Article extends Model
             ]
         ];
     }
+
     protected $appends = ['photo'];
+
     public function getPhotoAttribute()
     {
         return asset('images/articles/' . $this->image->url ?? null);
     }
+
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
     }
+
     public function path()
     {
         return route('article/', $this->id . '-' . $this->slug);

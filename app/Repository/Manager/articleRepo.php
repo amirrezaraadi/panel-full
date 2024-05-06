@@ -18,7 +18,7 @@ class articleRepo
 
     public function index()
     {
-        return $this->article->orderByDesc('created_at')->paginate();
+        return $this->article->with('author')->orderByDesc('created_at')->paginate();
     }
 
     public function create($data)
