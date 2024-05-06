@@ -7,7 +7,6 @@ use App\Repository\Manager\articleRepo;
 
 class morph
 {
-
     public static function morph($request)
     {
         $articleRepo = new articleRepo();
