@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Front\LandingArticleController;
+use App\Http\Controllers\Front\NewLandingController;
 use App\Http\Controllers\Seo\SeoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -46,13 +48,13 @@ Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(f
     Route::apiResource('bookmarks', \App\Http\Controllers\Attribute\BookmarkController::class);
     Route::apiResource('comments', \App\Http\Controllers\Attribute\CommentController::class);
     Route::prefix('role_permission')->name('role_permission')->group(function () {
-        Route::get('roles' , [\App\Http\Controllers\RolePermission\RoleController::class , 'index'])
-        ->name('roles.index');
-        Route::post('roles' , [\App\Http\Controllers\RolePermission\RoleController::class , 'store'])
+        Route::get('roles', [\App\Http\Controllers\RolePermission\RoleController::class, 'index'])
+            ->name('roles.index');
+        Route::post('roles', [\App\Http\Controllers\RolePermission\RoleController::class, 'store'])
             ->name('roles.store');
-        Route::get('permission' , [\App\Http\Controllers\RolePermission\PermissionController::class , 'index'])
+        Route::get('permission', [\App\Http\Controllers\RolePermission\PermissionController::class, 'index'])
             ->name('permission.index');
-    })  ;
+    });
     ///amir seraj
 });
 // end panel manager
@@ -115,13 +117,19 @@ Route::middleware(['auth:sanctum'])->prefix('status')->name('status')->group(fun
 // start front
 Route::prefix('/front')->name('front')->group(function () {
     Route::get('/', \App\Http\Controllers\LandingController::class)->name('landing');
-    Route::get('/landing_articles', [\App\Http\Controllers\Front\LandingArticleController::class, 'index'])
+    Route::get('/landing_articles', [LandingArticleController::class, 'index'])
         ->name('articles');
-    Route::get('single_article/{slug}', [\App\Http\Controllers\Front\LandingArticleController::class, 'single'])
+    Route::middleware(['auth:sanctum'])->
+        get('/articles-user-like/{article}', [LandingArticleController::class, 'articles_user_like'])
+        ->name('articles-user-like');
+    Route::middleware(['auth:sanctum'])->
+    get('/articles-user-bookmark/{bookmark}', [LandingArticleController::class, 'articles_user_bookmark'])
+        ->name('articles-user-bookmark');
+    Route::get('single_article/{slug}', [LandingArticleController::class, 'single'])
         ->name('single');
-    Route::get('/landing_news', [\App\Http\Controllers\Front\NewLandingController::class, 'index'])
+    Route::get('/landing_news', [NewLandingController::class, 'index'])
         ->name('articles');
-    Route::get('single_news/{slug}', [\App\Http\Controllers\Front\NewLandingController::class, 'single'])
+    Route::get('single_news/{slug}', [NewLandingController::class, 'single'])
         ->name('single');
 });
 // end front
