@@ -151,7 +151,7 @@ class articleRepo
                     ->with(['replies.user' , 'user' ])
                     ->orderByDesc('created_at')
                     ;
-            }])->loadCount('comments', 'liked', 'bookmarks')->append(['photo']);
+            }])->loadCount(['comments', 'liked', 'bookmark'])->append(['photo']);
         return $articlesRepo->makeHidden(['image', 'summary', 'status', 'author_id', 'updated_at']);
     }
 

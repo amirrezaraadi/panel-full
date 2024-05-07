@@ -33,17 +33,17 @@ class LandingArticleController extends Controller
         return response()->json(['data' => $articleSingle], 200);
     }
 
-    public function articles_user_like($id)
-    {
-        $article = $this->articleRepo->getFindCategory($id);
-        $like = Like::query()->where('likeable_id' , $article->id)
-            ->where('likeable_type' , get_class($article))
-            ->where('user_id' , auth()->id())
-            ->where('is_state' , 1)
-            ->exists();
-        return  $like ? 1 : 0 ;
-    }
-    public function articles_user_bookmark($id)
+//    public function articles_user_like($id)
+//    {
+//        $article = $this->articleRepo->getFindCategory($id);
+//        $like = Like::query()->where('likeable_id' , $article->id)
+//            ->where('likeable_type' , get_class($article))
+//            ->where('user_id' , auth()->id())
+//            ->where('is_state' , 1)
+//            ->exists();
+//        return  $like ? 1 : 0 ;
+//    }
+    public function articles_user($id)
     {
         $article = $this->articleRepo->getFindCategory($id);
         $bookmark = Bookmark::query()->where('bookmarkable_id' , $article->id)
@@ -51,7 +51,14 @@ class LandingArticleController extends Controller
             ->where('user_id' , auth()->id())
             ->where('is_state' , 1)
             ->exists();
-        return  $bookmark ? 1 : 0 ;
+        $like = Like::query()->where('likeable_id' , $article->id)
+            ->where('likeable_type' , get_class($article))
+            ->where('user_id' , auth()->id())
+            ->where('is_state' , 1)
+            ->exists();
+        $likes =   $like ? 1 : 0 ;
+        $bookmarks =   $bookmark ? 1 : 0 ;
+        return ['like' => $likes , 'bookmark' => $bookmarks];
     }
     public function categoryArticle($category, categoryRepo $categoryRepo)
     {

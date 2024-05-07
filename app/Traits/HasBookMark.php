@@ -12,4 +12,10 @@ trait HasBookMark
     {
         return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
+
+    public function bookmark()
+    {
+        return $this->morphMany(Bookmark::class, 'bookmarkable')
+            ->where("is_state", 1);
+    }
 }

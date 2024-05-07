@@ -120,11 +120,11 @@ Route::prefix('/front')->name('front')->group(function () {
     Route::get('/landing_articles', [LandingArticleController::class, 'index'])
         ->name('articles');
     Route::middleware(['auth:sanctum'])->
-        get('/articles-user-like/{article}', [LandingArticleController::class, 'articles_user_like'])
-        ->name('articles-user-like');
-    Route::middleware(['auth:sanctum'])->
-    get('/articles-user-bookmark/{bookmark}', [LandingArticleController::class, 'articles_user_bookmark'])
-        ->name('articles-user-bookmark');
+        get('/articles-user/{article}', [LandingArticleController::class, 'articles_user'])
+        ->name('articles-user');
+//    Route::middleware(['auth:sanctum'])->
+//    get('/articles-user-bookmark/{bookmark}', [LandingArticleController::class, 'articles_user_bookmark'])
+//        ->name('articles-user-bookmark');
     Route::get('single_article/{slug}', [LandingArticleController::class, 'single'])
         ->name('single');
     Route::get('/landing_news', [NewLandingController::class, 'index'])
