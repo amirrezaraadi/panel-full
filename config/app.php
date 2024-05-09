@@ -190,6 +190,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        \Laravel\Socialite\SocialiteServiceProvider::class,
+
 
     ],
 
@@ -201,6 +203,7 @@ return [
         'JsonLd'        => Artesaos\SEOTools\Facades\JsonLd::class,
         'JsonLdMulti'   => Artesaos\SEOTools\Facades\JsonLdMulti::class,
         'SEO' => Artesaos\SEOTools\Facades\SEOTools::class,
+
     ])->toArray(),
 
 ];

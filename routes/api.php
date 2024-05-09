@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Front\LandingArticleController;
 use App\Http\Controllers\Front\NewLandingController;
 use App\Http\Controllers\Seo\SeoController;
@@ -15,7 +16,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 // start authentication
-Route::prefix('auth')->name('auth')->group(function () {
+Route::prefix('auth')->name('auth.')->group(callback: function () {
     Route::post('register', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'store'])
         ->middleware('guest')
         ->name('register');
@@ -34,6 +35,8 @@ Route::prefix('auth')->name('auth')->group(function () {
     Route::middleware(['auth:sanctum'])->post('/change-password/', [\App\Http\Controllers\Auth\NewPasswordController::class, 'store'])
 //        ->middleware('guest')
         ->name('change-password');
+//    Route::get('google' , [GoogleController::class , 'google'])->name('google');
+//    Route::get('google/callback' , [GoogleController::class , 'google_callback'])->name('google-callback');
 });
 // end authentication
 // start panel manager

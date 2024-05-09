@@ -104,4 +104,9 @@ class userRepo
     {
         return $this->query->latest()->paginate();
     }
+
+    public function getGoogleId($email)
+    {
+        return $this->query->where('email' , $email)->first();
+    }
 }

@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Events\Views\VisitEvent;
 use App\Http\Controllers\Controller;
 use App\Models\AttributeSite\Bookmark;
-use App\Models\AttributeSite\Comment;
 use App\Models\AttributeSite\Like;
 use App\Repository\Manager\articleRepo;
 use App\Repository\Manager\categoryRepo;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class LandingArticleController extends Controller
 {

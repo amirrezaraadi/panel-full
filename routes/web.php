@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\GoogleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return ['Laravel' => app()->version()];
+    return view('google');
 });
 
-require __DIR__.'/auth.php';
+//    Route::get('google' , [GoogleController::class , 'google'])->name('google');
+//    Route::get('/auth/google/callback' , [GoogleController::class , 'google_callback'])->name('google-callback');
