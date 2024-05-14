@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Front\LandingArticleController;
 use App\Http\Controllers\Front\NewLandingController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Seo\SeoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -40,7 +41,7 @@ Route::prefix('auth')->name('auth.')->group(callback: function () {
 });
 // end authentication
 // start panel manager
-Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(function () {
+Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(callback: function () {
     Route::apiResource('users', \App\Http\Controllers\Manager\UserContoller::class);
     Route::apiResource('category', \App\Http\Controllers\Manager\CategoryController::class);
     Route::apiResource('tags', \App\Http\Controllers\Manager\TagController::class);
@@ -50,6 +51,7 @@ Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(f
     Route::apiResource('likes', \App\Http\Controllers\Attribute\LikeController::class);
     Route::apiResource('bookmarks', \App\Http\Controllers\Attribute\BookmarkController::class);
     Route::apiResource('comments', \App\Http\Controllers\Attribute\CommentController::class);
+    Route::apiResource('products',ProductController::class);
     Route::prefix('role_permission')->name('role_permission')->group(function () {
         Route::get('roles', [\App\Http\Controllers\RolePermission\RoleController::class, 'index'])
             ->name('roles.index');
