@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\AttributeSite\Comment;
 use App\Models\Manager\Article;
+use App\Models\Manager\Product;
 use App\Notifications\Auth\ForegetPasswordNotification;
 use App\Notifications\Auth\successChangePasswordNotification;
 use App\Traits\HasImage;
@@ -42,8 +43,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'updated_at',
         'deleted_at',
         'created_at',
-        'id',
-        'status',
+        // 'id',
+        // 'status',
         'email_verified_at',
         'ip_address'
     ];
@@ -90,5 +91,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Article::class);
     }
+
+    public  function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
 
 }
