@@ -5,62 +5,39 @@ namespace App\Http\Controllers;
 use App\Models\Manager\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Repository\Manager\productRepo;
+use App\Service\JsonResponse;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(public productRepo $productRepo)
+    {
+    }
+
     public function index()
     {
-        //
+        return $this->productRepo->index();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(StoreProductRequest $request): \Illuminate\Http\JsonResponse
+    {
+        dd($request->all());
+    }
+
+
+    public function show($product)
+    {
+        return $this->productRepo->getFirstId($product);
+    }
+
+    public function update(UpdateProductRequest $request, $product): \Illuminate\Http\JsonResponse
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreProductRequest $request)
+    public function destroy($product): \Illuminate\Http\JsonResponse
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Product $product)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Product $product)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateProductRequest $request, Product $product)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Product $product)
-    {
-        //
+        $this->productRepo->delete($product);
+        return JsonResponse::SuccessResponse('delete', 'success');
     }
 }

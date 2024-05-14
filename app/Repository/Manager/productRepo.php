@@ -21,4 +21,20 @@ class productRepo
     {
         return $data ;
     }
+
+    public function getFirstId($id)
+    {
+        return $this->quety->firstWhere('id' , $id);
+    }
+
+    public function getFindOrFail($id)
+    {
+        return $this->quety->findOrFail($id);
+    }
+
+    public function delete($product)
+    {
+        $this->getFindOrFail($product);
+        return $this->quety->where('id' , $product)->delete();
+    }
 }

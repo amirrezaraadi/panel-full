@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->nullable()->unique();
             $table->string('title_en');
-            $table->string('slug_en');
+            $table->string('slug_en')->nullable()->unique();
             $table->longText('body')->nullable();
             $table->enum('status' , \App\Models\Manager\Product::$statuses)
                     ->default(\App\Models\Manager\Product::STATUS_PENDING);

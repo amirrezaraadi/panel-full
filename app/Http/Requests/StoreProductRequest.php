@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Manager\PriceRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProductRequest extends FormRequest
@@ -11,7 +12,7 @@ class StoreProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,17 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => ['required' , 'string' , 'min:3' , 'max:255'],
+            'title_en' => ['required' , 'string' , 'min:3' , 'max:255'],
+            'body' => ['required' , 'string' , 'min:3' , 'max:1024'],
+            'price' => ['required' ,  "regex:/[0-9]([0-9]|-(?!-))+/"],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'price.regex' => 'فرمت قیمت وارد شده صحیح نمی‌باشد.',
         ];
     }
 }
