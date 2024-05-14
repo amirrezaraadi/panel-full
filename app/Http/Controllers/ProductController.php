@@ -21,7 +21,14 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request): \Illuminate\Http\JsonResponse
     {
-        dd($request->all());
+        $this->productRepo->create($request->only(
+            'title',
+            'title_en',
+            'body',
+            'price'
+        ));
+        return JsonResponse::SuccessResponse('delete', 'success');
+
     }
 
 
