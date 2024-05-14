@@ -32,7 +32,7 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request, $product): \Illuminate\Http\JsonResponse
     {
-        //
+
     }
 
     public function destroy($product): \Illuminate\Http\JsonResponse
