@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Front\LandingArticleController;
 use App\Http\Controllers\Front\NewLandingController;
+use App\Http\Controllers\Manager\UserContoller;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Seo\SeoController;
 use Illuminate\Http\Request;
@@ -42,7 +43,7 @@ Route::prefix('auth')->name('auth.')->group(callback: function () {
 // end authentication
 // start panel manager
 Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(callback: function () {
-    Route::apiResource('users', \App\Http\Controllers\Manager\UserContoller::class);
+    Route::apiResource('users', UserContoller::class);
     Route::apiResource('category', \App\Http\Controllers\Manager\CategoryController::class);
     Route::apiResource('tags', \App\Http\Controllers\Manager\TagController::class);
     Route::apiResource('articles', \App\Http\Controllers\Manager\ArticleController::class);
@@ -66,57 +67,65 @@ Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(c
 // status
 Route::middleware(['auth:sanctum'])->prefix('status')->name('status')->group(function () {
     // * users * ///
-    Route::put('users/ban/{user}', [\App\Http\Controllers\Manager\UserContoller::class, 'ban'])
-        ->name('ban');
-    Route::put('users/success/{user}', [\App\Http\Controllers\Manager\UserContoller::class, 'success'])
-        ->name('success');
-    Route::put('users/reject/{user}', [\App\Http\Controllers\Manager\UserContoller::class, 'reject'])
-        ->name('reject');
-    Route::put('users/pending/{user}', [\App\Http\Controllers\Manager\UserContoller::class, 'pending'])
-        ->name('pending');
-    Route::put('users/active/{user}', [\App\Http\Controllers\Manager\UserContoller::class, 'active'])
-        ->name('active');
+    Route::put('users/ban/{user}', [UserContoller::class, 'ban'])
+        ->name('user-ban');
+    Route::put('users/success/{user}', [UserContoller::class, 'success'])
+        ->name('user-success');
+    Route::put('users/reject/{user}', [UserContoller::class, 'reject'])
+        ->name('user-reject');
+    Route::put('users/pending/{user}', [UserContoller::class, 'pending'])
+        ->name('user-pending');
+    Route::put('users/active/{user}', [UserContoller::class, 'active'])
+        ->name('user-active');
     //end user
     /* start category */
     Route::put('category/success/{category}', [\App\Http\Controllers\Manager\CategoryController::class, 'success'])
-        ->name('success');
+        ->name('category-success');
     Route::put('category/reject/{category}', [\App\Http\Controllers\Manager\CategoryController::class, 'reject'])
-        ->name('reject');
+        ->name('category-reject');
     Route::put('category/pending/{category}', [\App\Http\Controllers\Manager\CategoryController::class, 'pending'])
-        ->name('pending');
+        ->name('category-pending');
     /* end category */
     /* start feature */
     Route::put('feature/success/{feature}', [\App\Http\Controllers\Manager\FeatureController::class, 'success'])
-        ->name('success');
+        ->name('feature-success');
     Route::put('feature/reject/{feature}', [\App\Http\Controllers\Manager\FeatureController::class, 'reject'])
-        ->name('reject');
+        ->name('feature-reject');
     Route::put('feature/pending/{feature}', [\App\Http\Controllers\Manager\FeatureController::class, 'pending'])
-        ->name('pending');
+        ->name('feature-pending');
     /* end feature */
     /* start tags */
     Route::put('tag/success/{tag}', [\App\Http\Controllers\Manager\TagController::class, 'success'])
-        ->name('success');
+        ->name('tag-success');
     Route::put('tag/reject/{tag}', [\App\Http\Controllers\Manager\TagController::class, 'reject'])
-        ->name('reject');
+        ->name('tag-reject');
     Route::put('tag/pending/{tag}', [\App\Http\Controllers\Manager\TagController::class, 'pending'])
-        ->name('pending');
+        ->name('tag-pending');
     /* end  tags */
     /* start article */
     Route::put('article/success/{article}', [\App\Http\Controllers\Manager\ArticleController::class, 'success'])
-        ->name('success');
+        ->name('article-success');
     Route::put('article/reject/{article}', [\App\Http\Controllers\Manager\ArticleController::class, 'reject'])
-        ->name('reject');
+        ->name('article-reject');
     Route::put('article/pending/{article}', [\App\Http\Controllers\Manager\ArticleController::class, 'pending'])
-        ->name('pending');
+        ->name('article-pending');
     /* end  article */
     /* start news */
     Route::put('news/success/{news}', [\App\Http\Controllers\Manager\NewsController::class, 'success'])
-        ->name('success');
+        ->name('news-success');
     Route::put('news/reject/{news}', [\App\Http\Controllers\Manager\NewsController::class, 'reject'])
-        ->name('reject');
+        ->name('news-reject');
     Route::put('news/pending/{news}', [\App\Http\Controllers\Manager\NewsController::class, 'pending'])
-        ->name('pending');
+        ->name('news-pending');
     /* end  news */
+    /* start products */
+    Route::put('product/success/{product}', [ProductController::class, 'success'])
+        ->name('product-success');
+    Route::put('product/reject/{product}', [ProductController::class, 'reject'])
+        ->name('product-reject');
+    Route::put('product/pending/{product}', [ProductController::class, 'pending'])
+        ->name('product-pending');
+    /* end  products */
 });
 // end status
 // start front

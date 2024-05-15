@@ -20,7 +20,7 @@ return new class extends Migration
             $table->longText('body')->nullable();
             $table->enum('status' , \App\Models\Manager\Product::$statuses)
                     ->default(\App\Models\Manager\Product::STATUS_PENDING);
-            $table->decimal('price' , 3);
+            $table->decimal('price' , 9 , 3);
 
             $table->tinyInteger('sold_number')->default(0)
                 ->nullable()

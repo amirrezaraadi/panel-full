@@ -27,6 +27,8 @@ class StoreProductRequest extends FormRequest
             'title_en' => ['required' , 'string' , 'min:3' , 'max:255'],
             'body' => ['required' , 'string' , 'min:3' , 'max:1024'],
             'price' => ['required' ,  "regex:/[0-9]([0-9]|-(?!-))+/"],
+            'tags' => ['required'],
+            'category_id' => ['required'],
         ];
     }
 

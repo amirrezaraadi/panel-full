@@ -25,7 +25,7 @@ class Product extends Model
         'title',
         'slug',
         'title_en',
-        'slug_en',
+//        'slug_en',
         'body',
         'status',
         'price',
@@ -41,16 +41,21 @@ class Product extends Model
 
 
     const STATUS_PENDING = 'pending';
-    const STATUS_Success = 'success';
-    const STATUS_Reject = 'reject';
+    const STATUS_SUCCESS = 'success';
+    const STATUS_REJECT = 'reject';
     public static $statuses = [
         self::STATUS_PENDING,
-        self::STATUS_Success,
-        self::STATUS_Reject,
+        self::STATUS_SUCCESS,
+        self::STATUS_REJECT,
     ];
 
     public function sluggable(): array
     {
-        // TODO: Implement sluggable() method.
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
     }
+
 }

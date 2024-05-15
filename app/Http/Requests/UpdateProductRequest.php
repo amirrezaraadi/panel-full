@@ -14,18 +14,22 @@ class UpdateProductRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
             'title' => ['required' , 'string' , 'min:3' , 'max:255'],
             'title_en' => ['required' , 'string' , 'min:3' , 'max:255'],
             'body' => ['required' , 'string' , 'min:3' , 'max:1024'],
-            'price' => ['required' ,  'regex:^[1-9][0-9]+|not_in:0'],
+            'price' => ['required' ,  "regex:/[0-9]([0-9]|-(?!-))+/"],
+            'tags' => ['required'],
+            'category_id' => ['required'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'price.regex' => 'فرمت قیمت وارد شده صحیح نمی‌باشد.',
         ];
     }
 }
