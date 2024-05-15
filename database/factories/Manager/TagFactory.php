@@ -17,7 +17,7 @@ class TagFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->name() ,
+            'title' => $this->faker->unique()->name() ,
             'slug' => $this->faker->name() ,
             'user_id' => $this->faker->numberBetween(1, 15),
             'status' => 'success',
