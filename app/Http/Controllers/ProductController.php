@@ -64,7 +64,7 @@ class ProductController extends Controller
             'title_en',
             'body',
             'price'
-        ) , $product);
+        ), $product);
         if ($request->image) {
             $deleteImage = ImageService::deleteImageArticle($producrId);
             $path = ImageService::generate($request->file('image'));
