@@ -6,6 +6,7 @@ use App\Http\Controllers\Front\NewLandingController;
 use App\Http\Controllers\Manager\UserContoller;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Seo\SeoController;
+use App\Http\Controllers\User\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,9 +15,7 @@ Route::prefix('seo')->name('seo')->group(function () {
     Route::get('/sitemap', [SeoController::class, 'sitemap'])->name('sitemap');
 });
 // end seo
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 // start authentication
 Route::prefix('auth')->name('auth.')->group(callback: function () {
     Route::post('register', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'store'])
@@ -37,6 +36,9 @@ Route::prefix('auth')->name('auth.')->group(callback: function () {
     Route::middleware(['auth:sanctum'])->post('/change-password/', [\App\Http\Controllers\Auth\NewPasswordController::class, 'store'])
 //        ->middleware('guest')
         ->name('change-password');
+
+    Route::middleware(['auth:sanctum'])->get('/user/', [ProfileController::class, 'me'])
+        ->name('user');
 //    Route::get('google' , [GoogleController::class , 'google'])->name('google');
 //    Route::get('google/callback' , [GoogleController::class , 'google_callback'])->name('google-callback');
 });
