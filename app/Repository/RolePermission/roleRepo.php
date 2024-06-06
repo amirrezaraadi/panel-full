@@ -2,7 +2,9 @@
 
 namespace App\Repository\RolePermission;
 
+use App\Http\Controllers\RolePermission\PermissionController;
 use App\Models\RolePermission\Role;
+use Spatie\Permission\Models\Permission;
 
 class roleRepo
 {
@@ -31,7 +33,7 @@ class roleRepo
 
     public function deleteRole($roleId)
     {
-        return Role::query()->where('id' , $roleId->id)->delete();
+        return Role::query()->where('id' , $roleId)->delete();
     }
 
     public function updateRole( $data, $roleId)
@@ -40,4 +42,23 @@ class roleRepo
             'name' => $data['name'] ?? $roleId->name
         ]);
     }
+    public function getFindName($name)
+    {
+        return Role::query()->where('name' , $name)->first();
+    }
+    public function syncMultiPermissionToRole($role, $permissionId)
+    {
+        $role = $this->getFindName($role);
+        $string = str_replace(['[', ']'], '', $permissionId);
+        $permission_explode = explode(',', $string);
+        $permissions = Permission::query()->whereIn('id' , $permission_explode)->get()->pluck('id')->toArray();
+        $role->syncPermissions($permissions);
+        return true ;
+    }
+
+    public function syncRoleBeUser(mixed $roles, mixed $userId)
+    {
+    }
+
+
 }

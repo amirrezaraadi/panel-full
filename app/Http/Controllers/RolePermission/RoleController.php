@@ -39,11 +39,24 @@ class RoleController extends Controller
         return JsonResponse::SuccessResponse('update role', 'success');
     }
 
-    public function delete($role)
+    public function destroy($role)
     {
         $roleId = $this->roleRepo->getFindID($role);
         $this->roleRepo->deleteRole( $roleId->id);
         return JsonResponse::SuccessResponse('delete role', 'success');
     }
 
+    public function role_permission(Request $request)
+    {
+        $this->roleRepo->syncMultiPermissionToRole($request->role , $request->permissions );
+        return JsonResponse::SuccessResponse('sync role and permission ', 'success');
+
+    }
+
+    public function role_user(Request $request)
+    {
+        $this->roleRepo->syncRoleBeUser($request->roles , $request->userId);
+        return JsonResponse::SuccessResponse('sync role and permission ', 'success');
+
+    }
 }
