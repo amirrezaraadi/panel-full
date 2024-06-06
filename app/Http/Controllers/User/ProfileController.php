@@ -9,8 +9,9 @@ class ProfileController extends Controller
 {
     public function me()
     {
-        $user = auth()->user() ;
-        $user->roles ;
-        return $user ;
+        $user = auth()->user();
+        $user->roles;
+        
+        return $user;
     }
 }

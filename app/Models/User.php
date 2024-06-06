@@ -25,7 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens,
         HasFactory,
         Notifiable,
-        HasRoles ,
+        HasRoles,
         HasImage,
         SoftDeletes;
 
@@ -36,17 +36,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'status',
         'profile',
         'ip_address',
+        'email_verified_at'
     ];
     protected $hidden = [
         'password',
         'remember_token',
-        'updated_at',
-        'deleted_at',
-        'created_at',
-        // 'id',
-        // 'status',
-        'email_verified_at',
-        'ip_address'
+        'updated_at'
     ];
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -54,11 +49,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sendEmailForgetPassword()
     {
-         $this->notify(new ForegetPasswordNotification());
+        $this->notify(new ForegetPasswordNotification());
     }
+
     public function successChangePassword()
     {
-         $this->notify(new successChangePasswordNotification());
+        $this->notify(new successChangePasswordNotification());
     }
 
     const STATUS_USER_SUCCESS = 'success';
@@ -82,6 +78,7 @@ class User extends Authenticatable implements MustVerifyEmail
             SEOTools::setTitle($user->name);
         });
     }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);
@@ -92,7 +89,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Article::class);
     }
 
-    public  function products()
+    public function products()
     {
         return $this->hasMany(Product::class);
     }

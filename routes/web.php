@@ -18,5 +18,5 @@ Route::get('/', function () {
     return view('google');
 });
 
-//    Route::get('google' , [GoogleController::class , 'google'])->name('google');
-//    Route::get('/auth/google/callback' , [GoogleController::class , 'google_callback'])->name('google-callback');
+    Route::get('google' , [GoogleController::class , 'google'])->name('google');
+    Route::get('/auth/google/callback' , [GoogleController::class , 'google_callback'])->name('google-callback');

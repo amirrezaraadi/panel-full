@@ -39,8 +39,8 @@ Route::prefix('auth')->name('auth.')->group(callback: function () {
 
     Route::middleware(['auth:sanctum'])->get('/user/', [ProfileController::class, 'me'])
         ->name('user');
-//    Route::get('google' , [GoogleController::class , 'google'])->name('google');
-//    Route::get('google/callback' , [GoogleController::class , 'google_callback'])->name('google-callback');
+    Route::get('google' , [GoogleController::class , 'google'])->name('google');
+    Route::get('google/callback' , [GoogleController::class , 'google_callback'])->name('google-callback');
 });
 // end authentication
 // start panel manager
@@ -60,8 +60,11 @@ Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(c
             ->name('roles.index');
         Route::post('roles', [\App\Http\Controllers\RolePermission\RoleController::class, 'store'])
             ->name('roles.store');
+
         Route::get('permission', [\App\Http\Controllers\RolePermission\PermissionController::class, 'index'])
             ->name('permission.index');
+        Route::post('permission', [\App\Http\Controllers\RolePermission\PermissionController::class, 'store'])
+            ->name('permission.store');
     });
     ///amir seraj
 });
