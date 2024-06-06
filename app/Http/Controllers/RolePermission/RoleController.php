@@ -21,11 +21,29 @@ class RoleController extends Controller
         return $this->roleRepo->index();
     }
 
-    public function store(RoleRequest $request)
+    public function store(RoleRequest $request): \Illuminate\Http\JsonResponse
     {
-        $this->roleRepo->createRole($request->all());
+        $this->roleRepo->createRole($request->only('name'));
         return JsonResponse::SuccessResponse('create role', 'success');
     }
 
+    public function show($role)
+    {
+        return $this->roleRepo->getFindID($role);
+    }
+
+    public function update(RoleRequest $request , $role): \Illuminate\Http\JsonResponse
+    {
+        $roleId = $this->roleRepo->getFindID($role);
+        $this->roleRepo->updateRole($request->only('name') , $roleId);
+        return JsonResponse::SuccessResponse('update role', 'success');
+    }
+
+    public function delete($role)
+    {
+        $roleId = $this->roleRepo->getFindID($role);
+        $this->roleRepo->deleteRole( $roleId->id);
+        return JsonResponse::SuccessResponse('delete role', 'success');
+    }
 
 }

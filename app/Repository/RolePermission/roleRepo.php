@@ -20,8 +20,24 @@ class roleRepo
     public function createRole($role)
     {
         return $this->role->create([
-            'guard_name' => 'api' ,
             'name' => $role['name']
+        ]);
+    }
+
+    public function getFindID($role)
+    {
+        return Role::query()->findOrFail($role);
+    }
+
+    public function deleteRole($roleId)
+    {
+        return Role::query()->where('id' , $roleId->id)->delete();
+    }
+
+    public function updateRole( $data, $roleId)
+    {
+        return Role::query()->where('id' , $roleId->id)->update([
+            'name' => $data['name'] ?? $roleId->name
         ]);
     }
 }
