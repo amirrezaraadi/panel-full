@@ -59,4 +59,6 @@ class RoleController extends Controller
         return JsonResponse::SuccessResponse('sync role and permission ', 'success');
 
     }
+
+
 }

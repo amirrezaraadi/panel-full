@@ -7,6 +7,7 @@ use App\Http\Requests\RolePermission\PermissionRequest;
 use App\Models\RolePermission\Permission;
 use App\Repository\RolePermission\permissionRepo;
 use App\Repository\RolePermission\roleRepo;
+use App\Service\JsonResponse;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
@@ -45,5 +46,11 @@ class PermissionController extends Controller
         $permissionId = $this->permissionRepo->getFindId($permission);
         $this->permissionRepo->delete($permissionId->id);
         return response()->json(['message' => 'delete permission ' , 'status' => 'success'],200);
+    }
+
+    public function permission_user(Request $request)
+    {
+        $this->permissionRepo->syncPermissionBeUser($request->permissions , $request->userId);
+        return JsonResponse::SuccessResponse('sync user and permission ', 'success');
     }
 }

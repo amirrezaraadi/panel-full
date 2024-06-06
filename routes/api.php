@@ -62,6 +62,7 @@ Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(c
         Route::apiResource('permissions' , PermissionController::class);
         Route::post('role-permission' , [RoleController::class , 'role_permission'])->name('role-permission');
         Route::post('role-user' , [RoleController::class , 'role_user'])->name('role-user');
+        Route::post('permission-user' , [PermissionController::class , 'permission_user'])->name('permission-user');
     });
 
 });

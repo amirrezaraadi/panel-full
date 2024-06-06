@@ -71,7 +71,7 @@ class roleRepo
         $user = User::query()->where('id', $userId)->first();
 
         $user->assignRole($role);
-        return true ;
+        return true;
 
     }
 

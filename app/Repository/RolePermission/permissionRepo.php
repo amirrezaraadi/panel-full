@@ -3,6 +3,7 @@
 namespace App\Repository\RolePermission;
 
 use App\Models\RolePermission\Permission;
+use App\Models\User;
 
 class permissionRepo
 {
@@ -31,8 +32,18 @@ class permissionRepo
 
     public function update($data, $id)
     {
-        return Permission::query()->where('id' , $id->id)->update([
+        return Permission::query()->where('id', $id->id)->update([
             'name' => $data['name'] ?? $id->name
         ]);
+    }
+
+    public function syncPermissionBeUser($permissionId, $userId)
+    {
+        $string = str_replace(['[', ']'], '', $permissionId);
+        $permission_explode = explode(',', $string);
+        $permission = Permission::query()->whereIn('id', $permission_explode)->get()->pluck('name')->toArray();
+        $user = User::query()->where('id', $userId)->first();
+        $user->givePermissionTo($permission);
+        return true;
     }
 }
