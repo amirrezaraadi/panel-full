@@ -14,7 +14,8 @@ class permissionRepo
     public function create($data)
     {
         return Permission::query()->create([
-            'name' => $data['name']
+            'name' => $data['name'],
+            'guard_name' => 'api'
         ]);
     }
 

@@ -28,7 +28,6 @@ class User extends Authenticatable implements MustVerifyEmail
         HasRoles,
         HasImage,
         SoftDeletes;
-
     protected $fillable = [
         'name',
         'email',
@@ -94,5 +93,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Product::class);
     }
 
-
+    public function guardName()
+    {
+        return 'api';
+    }
 }
