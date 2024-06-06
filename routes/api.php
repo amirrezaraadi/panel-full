@@ -5,6 +5,8 @@ use App\Http\Controllers\Front\LandingArticleController;
 use App\Http\Controllers\Front\NewLandingController;
 use App\Http\Controllers\Manager\UserContoller;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RolePermission\PermissionController;
+use App\Http\Controllers\RolePermission\RoleController;
 use App\Http\Controllers\Seo\SeoController;
 use App\Http\Controllers\User\ProfileController;
 use Illuminate\Http\Request;
@@ -56,17 +58,10 @@ Route::middleware(['auth:sanctum'])->prefix('manager')->name('manager')->group(c
     Route::apiResource('comments', \App\Http\Controllers\Attribute\CommentController::class);
     Route::apiResource('products',ProductController::class);
     Route::prefix('role_permission')->name('role_permission')->group(function () {
-        Route::get('roles', [\App\Http\Controllers\RolePermission\RoleController::class, 'index'])
-            ->name('roles.index');
-        Route::post('roles', [\App\Http\Controllers\RolePermission\RoleController::class, 'store'])
-            ->name('roles.store');
-
-        Route::get('permission', [\App\Http\Controllers\RolePermission\PermissionController::class, 'index'])
-            ->name('permission.index');
-        Route::post('permission', [\App\Http\Controllers\RolePermission\PermissionController::class, 'store'])
-            ->name('permission.store');
+        Route::apiResource('roles' , RoleController::class);
+        Route::apiResource('permissions' , PermissionController::class);
     });
-    ///amir seraj
+
 });
 // end panel manager
 // status
